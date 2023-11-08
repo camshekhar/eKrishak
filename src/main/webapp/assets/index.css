@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0px;
+  position: relative;
+}
+.leaf{
+	position: absolute;
+  font-size: 25px;
+
+ top: 1px;
+  left: 300px;
+  
+}
+.nav-brand {
+	position: relative;
+  flex: 1;
+  font-family: Kenia !important;
+  font-weight: 500;
+  font-size: 3rem;
+  background: linear-gradient(to right, rgb(12, 117, 12), rgb(228, 228, 6));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  cursor: pointer;
+}
+
+.tagline {
+position: absolute;
+  flex: 1;
+  top: 55px;
+  left: 100px;
+  padding-bottom: 5px;
+  color: rgb(149, 149, 14);
+}
