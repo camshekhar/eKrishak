@@ -1,30 +1,44 @@
-<%@page import="common.LoginDao"%>  
-<jsp:useBean id="obj" class="common.LoginUser"/>  
-  
-<jsp:setProperty property="*" name="obj"/>  
+<%@page import="connection.*, java.sql.*"%> 
   
 <%  
-boolean status=LoginDao.validate(obj);  
-if(status){  
+DB_Connection connection = null;
+
+String mobile, password;
+
+boolean status=false; 
+
+mobile = request.getParameter("mobile");
+password = request.getParameter("password");
+
+try{  
 	
-	String mobile = Integer.toString(LoginDao.mobile);
+connection = new DB_Connection(); 
 
-// System.out.println(mobile);
-session.setAttribute("mobile",mobile);  
-// 	out.print("Sorry, email or password error"); 
-response.sendRedirect("/eKrishak/farmer/farmerDashboard.jsp"); 
+String query = "Select * from farmer_details where f_contact="+ mobile +" and password='"+password+"'";
+
+              
+ResultSet rs = connection.getRecords(query);  
+status=rs.next();
+
+System.out.println(status); 
 
 
+}catch(Exception e){
+	System.out.println(e);
+}finally {
+	connection.closeConnection();
+}
 
-
+if(status){  
+	session.setAttribute("f_mobile", mobile);  
+	session.setAttribute("logMsg", "Login Successfull");
+	response.sendRedirect("/eKrishak/farmer/farmerDashboard.jsp"); 
 }  
 else  
 {  
- 
-response.sendRedirect("/eKrishak/farmer/farmerLogin.jsp");
-out.print("Sorry, email or password error"); 
+	session.setAttribute("logMsg", "Login Unsuccessfull!");
+	response.sendRedirect("/eKrishak/farmer/farmerLogin.jsp");
+}
 %>  
-<jsp:include page="../index.jsp"></jsp:include>  
-<%  
-}  
-%>  
+
+  
