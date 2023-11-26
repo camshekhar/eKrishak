@@ -1,34 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="connection.*, java.sql.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-
 <jsp:include page="base.html" flush="true" />
+
+<%
+DB_Connection connection = null;
+boolean status = false;
+int fCount = 0, vCount = 0, ordCount = 0, dCount = 0;
+
+try {
+	connection = new DB_Connection();
+	
+	String fQuery = "select count(*) from farmer_details";
+	String vQuery = "select count(*) from vendor_details";
+	String ordQuery = "select count(*) from crop_order_details";
+	String dQuery = "select count(*) from driver_details";
+	
+	ResultSet f_rs = connection.getRecords(fQuery);
+	ResultSet v_rs = connection.getRecords(vQuery);
+	ResultSet ord_rs = connection.getRecords(ordQuery);
+	ResultSet d_rs = connection.getRecords(dQuery);
+	
+	if (f_rs.next()) {
+		fCount = f_rs.getInt(1);
+	}
+	if (v_rs.next()) {
+		vCount = v_rs.getInt(1);
+	}
+	if (ord_rs.next()) {
+		ordCount = ord_rs.getInt(1);
+	}
+	if (d_rs.next()) {
+		dCount = d_rs.getInt(1);
+	}
+
+} catch (Exception e) {
+	System.out.println(e);
+} finally {
+	connection.closeConnection();
+}
+%>
 
 </head>
 
 <body>
 
-	<jsp:include page="navbar.html" flush="true" />
+	<jsp:include page="topbar.html" flush="true" />
 
+	<!-- Navbar Start -->
+	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
+			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav mx-auto py-0">
+				<a href="/eKrishak" class="nav-item nav-link active">Home</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
+				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
+				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
+
+				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar End -->
 	<!-- Carousel Start -->
 	<div class="container-fluid p-0">
 		<div id="header-carousel" class="carousel slide carousel-fade"
 			data-bs-ride="carousel">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img class="w-100" src="assets/img/carousel-1.jpg" alt="Image">
+					<img class="w-100 h-50" src="assets/img/carousel-1.jpg" alt="Image">
 					<div
 						class="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
 						<div class="text-start p-5" style="max-width: 900px;">
-							<h3 class="text-white">Organic Vegetables</h3>
-							<h1 class="display-1 text-white mb-md-4">Organic Vegetables
-								For Healthy Life</h1>
-							<a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Explore</a>
-							<a href="" class="btn btn-secondary py-md-3 px-md-5">Contact</a>
+							<h3 class="text-white">For Farmers</h3>
+							<h1 class="display-1 text-white mb-md-4">Crops Selling and
+								Transportation</h1>
+							<a href="farmer/farmerLogin.jsp"
+								class="btn btn-primary py-md-3 px-md-5 me-3">Farmers</a> <a
+								href="contactUs.jsp" class="btn btn-secondary py-md-3 px-md-5">Contact
+								Us</a>
 						</div>
 					</div>
 				</div>
@@ -37,11 +96,12 @@
 					<div
 						class="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
 						<div class="text-start p-5" style="max-width: 900px;">
-							<h3 class="text-white">Organic Fruits</h3>
-							<h1 class="display-1 text-white mb-md-4">Organic Fruits For
-								Better Health</h1>
-							<a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Explore</a>
-							<a href="" class="btn btn-secondary py-md-3 px-md-5">Contact</a>
+							<h3 class="text-white">For Vendors</h3>
+							<h1 class="display-1 text-white mb-md-4">Purchase Crops
+								Hassle Free</h1>
+							<a href="vendor/vendorLogin.jsp"
+								class="btn btn-primary py-md-3 px-md-5 me-3">Vendors</a> <a
+								href="contactUs.jsp" class="btn btn-secondary py-md-3 px-md-5">Contact</a>
 						</div>
 					</div>
 				</div>
@@ -70,10 +130,11 @@
 						class="bg-primary bg-cropselling d-flex flex-column justify-content-center p-5"
 						style="height: 300px;">
 						<h3 class="text-white mb-3">Crops Selling</h3>
-						<p class="text-white">Dolor magna ipsum elitr sea erat elitr
-							amet ipsum stet justo dolor, amet lorem diam no duo sed dolore
-							amet diam</p>
-						<a class="text-white fw-bold" href="">Read More<i
+						<p class="text-white">
+							We at <strong>eKrishak</strong> provides services of Crops
+							Selling for farmers at profitable price direct to Vendors.
+						</p>
+						<a class="text-white fw-bold" href="#">Read More<i
 							class="bi bi-arrow-right ms-2"></i></a>
 					</div>
 				</div>
@@ -82,10 +143,12 @@
 						class="bg-secondary bg-transportation d-flex flex-column justify-content-center p-5"
 						style="height: 300px;">
 						<h3 class="text-white mb-3">Crops Transportation</h3>
-						<p class="text-white">Dolor magna ipsum elitr sea erat elitr
-							amet ipsum stet justo dolor, amet lorem diam no duo sed dolore
-							amet diam</p>
-						<a class="text-white fw-bold" href="">Read More<i
+						<p class="text-white">
+							We at <strong>eKrishak</strong> provides services of Crops
+							Transportation from farmers to vendors at reasonable pricing by
+							patching you directly with transport Drivers.
+						</p>
+						<a class="text-white fw-bold" href="#">Read More<i
 							class="bi bi-arrow-right ms-2"></i></a>
 					</div>
 				</div>
@@ -96,7 +159,7 @@
 
 
 	<!-- About Start -->
-	<div class="container-fluid about pt-5">
+	<div class="container-fluid about pt-5 "  id="aboutus">
 		<div class="container">
 			<div class="row gx-5">
 				<div class="col-lg-6 mb-5 mb-lg-0">
@@ -108,7 +171,8 @@
 				<div class="col-lg-6 pb-5">
 					<div class="mb-3 pb-2">
 						<h6 class="text-primary text-uppercase">About Us</h6>
-						<h1 class="display-5">We Produce Organic Food For Your Family</h1>
+						<h1 class="display-5">We Provides Crop Selling and
+							Transportation Facilities for Farmers</h1>
 					</div>
 					<p class="mb-4">Tempor erat elitr at rebum at at clita. Diam
 						dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit,
@@ -117,15 +181,18 @@
 					<div class="row gx-5 gy-4">
 						<div class="col-sm-6">
 							<i class="fa fa-seedling display-1 text-secondary"></i>
-							<h4>100% Organic</h4>
-							<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-								magna clita nonumy dolor magna dolor vero</p>
+							<h4>Fresh Crops</h4>
+							<p class="mb-0">
+								Seasonal Crops (<strong>Grains, Pulses and Legumes</strong>) are
+								directly sold to vendors at profitable price by Farmers to gain
+								maximum profit.
+							</p>
 						</div>
 						<div class="col-sm-6">
-							<i class="fa fa-award display-1 text-secondary"></i>
-							<h4>Award Winning</h4>
-							<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-								magna clita nonumy dolor magna dolor vero</p>
+							<i class="fa fa-car display-1 text-secondary"></i>
+							<h4>Safe Transportation</h4>
+							<p class="mb-0">We are in touch with skilled drivers who has
+								varieties of Transportation vehicles with them.</p>
 						</div>
 					</div>
 				</div>
@@ -144,11 +211,11 @@
 						<div
 							class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mb-3"
 							style="width: 60px; height: 60px;">
-							<i class="fa fa-star fs-4 text-white"></i>
+							<i class="fa fa-tractor fs-4 text-white"></i>
 						</div>
 						<div class="ps-4">
-							<h5 class="text-white">Our Experience</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+							<h5 class="text-white">Registered Farmers</h5>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= fCount %></h1>
 						</div>
 					</div>
 				</div>
@@ -160,8 +227,8 @@
 							<i class="fa fa-users fs-4 text-white"></i>
 						</div>
 						<div class="ps-4">
-							<h5 class="text-white">Farm Specialist</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+							<h5 class="text-white">Registered Vendors</h5>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= vCount %></h1>
 						</div>
 					</div>
 				</div>
@@ -170,11 +237,11 @@
 						<div
 							class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mb-3"
 							style="width: 60px; height: 60px;">
-							<i class="fa fa-check fs-4 text-white"></i>
+							<i class="fa fa-car fs-4 text-white"></i>
 						</div>
 						<div class="ps-4">
-							<h5 class="text-white">Complete Project</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+							<h5 class="text-white">Registered Drivers</h5>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= dCount %></h1>
 						</div>
 					</div>
 				</div>
@@ -183,11 +250,11 @@
 						<div
 							class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mb-3"
 							style="width: 60px; height: 60px;">
-							<i class="fa fa-mug-hot fs-4 text-white"></i>
+							<i class="fa fa-truck fs-4 text-white"></i>
 						</div>
 						<div class="ps-4">
-							<h5 class="text-white">Happy Clients</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+							<h5 class="text-white">Orders Delivered</h5>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= ordCount %></h1>
 						</div>
 					</div>
 				</div>
@@ -195,66 +262,6 @@
 		</div>
 	</div>
 	<!-- Facts End -->
-
-
-	<!-- Services Start -->
-	<div class="container-fluid py-5">
-		<div class="container">
-			<div class="row g-5">
-				<div class="col-lg-4 col-md-6">
-					<div class="mb-3">
-						<h6 class="text-primary text-uppercase">Services</h6>
-						<h1 class="display-5">Organic Farm Services</h1>
-					</div>
-					<p class="mb-4">Tempor erat elitr at rebum at at clita. Diam
-						dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit
-						sed stet labore</p>
-					<a href="" class="btn btn-primary py-md-3 px-md-5">Contact Us</a>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="service-item bg-light text-center p-5">
-						<i class="fa fa-carrot display-1 text-primary mb-3"></i>
-						<h4>Fresh Vegetables</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita nonumy dolor magna dolor vero</p>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="service-item bg-light text-center p-5">
-						<i class="fa fa-apple-alt display-1 text-primary mb-3"></i>
-						<h4>Fresh Fruits</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita nonumy dolor magna dolor vero</p>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="service-item bg-light text-center p-5">
-						<i class="fa fa-dog display-1 text-primary mb-3"></i>
-						<h4>Healty Cattle</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita nonumy dolor magna dolor vero</p>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="service-item bg-light text-center p-5">
-						<i class="fa fa-tractor display-1 text-primary mb-3"></i>
-						<h4>Modern Truck</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita nonumy dolor magna dolor vero</p>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="service-item bg-light text-center p-5">
-						<i class="fa fa-seedling display-1 text-primary mb-3"></i>
-						<h4>Farming Plans</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita nonumy dolor magna dolor vero</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Services End -->
 
 
 	<!-- Features Start -->
@@ -272,19 +279,21 @@
 							style="width: 60px; height: 60px;">
 							<i class="fa fa-seedling fs-4 text-white"></i>
 						</div>
-						<h4 class="text-white">100% Organic</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita</p>
+						<h4 class="text-white">Crops Management</h4>
+						<p class="mb-0">
+							We are listed with varieties of crops like:<strong>
+								Grains, Pulses and Legumes</strong>.
+						</p>
 					</div>
 					<div class="text-white">
 						<div
 							class="bg-secondary rounded-pill d-flex align-items-center justify-content-center mb-3"
 							style="width: 60px; height: 60px;">
-							<i class="fa fa-award fs-4 text-white"></i>
+							<i class="fa fa-truck fs-4 text-white"></i>
 						</div>
-						<h4 class="text-white">Award Winning</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita</p>
+						<h4 class="text-white">Hassle-Free Transportation</h4>
+						<p class="mb-0">Multiple transportation vehicles available
+							with skilled drivers.</p>
 					</div>
 				</div>
 				<div class="col-lg-6">
@@ -305,7 +314,7 @@
 							style="width: 60px; height: 60px;">
 							<i class="fa fa-tractor fs-4 text-white"></i>
 						</div>
-						<h4 class="text-white">Modern Farming</h4>
+						<h4 class="text-white">Modern Technologies</h4>
 						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
 							magna clita</p>
 					</div>
@@ -316,244 +325,14 @@
 							<i class="fa fa-phone-alt fs-4 text-white"></i>
 						</div>
 						<h4 class="text-white">24/7 Support</h4>
-						<p class="mb-0">Labore justo vero ipsum sit clita erat lorem
-							magna clita</p>
+						<p class="mb-0">Currently we provide contact support via Call
+							and E-Mail.</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Features Start -->
 
-
-	<!--     Products Start -->
-	<!--     <div class="container-fluid py-5"> -->
-	<!--         <div class="container"> -->
-	<!--             <div class="mx-auto text-center mb-5" style="max-width: 500px;"> -->
-	<!--                 <h6 class="text-primary text-uppercase">Products</h6> -->
-	<!--                 <h1 class="display-5">Our Fresh & Organic Products</h1> -->
-	<!--             </div> -->
-	<!--             <div class="owl-carousel product-carousel px-5"> -->
-	<!--                 <div class="pb-5"> -->
-	<!--                     <div class="product-item position-relative bg-white d-flex flex-column text-center"> -->
-	<!--                         <img class="img-fluid mb-4" src="assets/img/product-1.png" alt=""> -->
-	<!--                         <h6 class="mb-3">Organic Vegetable</h6> -->
-	<!--                         <h5 class="text-primary mb-0">$19.00</h5> -->
-	<!--                         <div class="btn-action d-flex justify-content-center"> -->
-	<!--                             <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a> -->
-	<!--                             <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--                 <div class="pb-5"> -->
-	<!--                     <div class="product-item position-relative bg-white d-flex flex-column text-center"> -->
-	<!--                         <img class="img-fluid mb-4" src="assets/img/product-2.png" alt=""> -->
-	<!--                         <h6 class="mb-3">Organic Vegetable</h6> -->
-	<!--                         <h5 class="text-primary mb-0">$19.00</h5> -->
-	<!--                         <div class="btn-action d-flex justify-content-center"> -->
-	<!--                             <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a> -->
-	<!--                             <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--                 <div class="pb-5"> -->
-	<!--                     <div class="product-item position-relative bg-white d-flex flex-column text-center"> -->
-	<!--                         <img class="img-fluid mb-4" src="assets/img/product-1.png" alt=""> -->
-	<!--                         <h6 class="mb-3">Organic Vegetable</h6> -->
-	<!--                         <h5 class="text-primary mb-0">$19.00</h5> -->
-	<!--                         <div class="btn-action d-flex justify-content-center"> -->
-	<!--                             <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a> -->
-	<!--                             <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--                 <div class="pb-5"> -->
-	<!--                     <div class="product-item position-relative bg-white d-flex flex-column text-center"> -->
-	<!--                         <img class="img-fluid mb-4" src="assets/img/product-2.png" alt=""> -->
-	<!--                         <h6 class="mb-3">Organic Vegetable</h6> -->
-	<!--                         <h5 class="text-primary mb-0">$19.00</h5> -->
-	<!--                         <div class="btn-action d-flex justify-content-center"> -->
-	<!--                             <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a> -->
-	<!--                             <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--                 <div class="pb-5"> -->
-	<!--                     <div class="product-item position-relative bg-white d-flex flex-column text-center"> -->
-	<!--                         <img class="img-fluid mb-4" src="assets/img/product-1.png" alt=""> -->
-	<!--                         <h6 class="mb-3">Organic Vegetable</h6> -->
-	<!--                         <h5 class="text-primary mb-0">$19.00</h5> -->
-	<!--                         <div class="btn-action d-flex justify-content-center"> -->
-	<!--                             <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a> -->
-	<!--                             <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--             </div> -->
-	<!--         </div> -->
-	<!--     </div> -->
-	<!--     Products End -->
-
-
-	<!--     Testimonial Start -->
-	<!--     <div class="container-fluid bg-testimonial py-5 my-5"> -->
-	<!--         <div class="container py-5"> -->
-	<!--             <div class="row justify-content-center"> -->
-	<!--                 <div class="col-lg-7"> -->
-	<!--                     <div class="owl-carousel testimonial-carousel p-5"> -->
-	<!--                         <div class="testimonial-item text-center text-white"> -->
-	<!--                             <img class="img-fluid mx-auto p-2 border border-5 border-secondary rounded-circle mb-4" src="img/testimonial-2.jpg" alt=""> -->
-	<!--                             <p class="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p> -->
-	<!--                             <hr class="mx-auto w-25"> -->
-	<!--                             <h4 class="text-white mb-0">Client Name</h4> -->
-	<!--                         </div> -->
-	<!--                         <div class="testimonial-item text-center text-white"> -->
-	<!--                             <img class="img-fluid mx-auto p-2 border border-5 border-secondary rounded-circle mb-4" src="img/testimonial-2.jpg" alt=""> -->
-	<!--                             <p class="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p> -->
-	<!--                             <hr class="mx-auto w-25"> -->
-	<!--                             <h4 class="text-white mb-0">Client Name</h4> -->
-	<!--                         </div> -->
-	<!--                     </div> -->
-	<!--                 </div> -->
-	<!--             </div> -->
-	<!--         </div> -->
-	<!--     </div> -->
-	<!--     Testimonial End -->
-
-
-	<!-- Team Start -->
-	<div class="container-fluid py-5">
-		<div class="container">
-			<div class="mx-auto text-center mb-5" style="max-width: 500px;">
-				<h6 class="text-primary text-uppercase">The Team</h6>
-				<h1 class="display-5">We Are Professional Organic Farmers</h1>
-			</div>
-			<div class="row g-5">
-				<div class="col-lg-4 col-md-6">
-					<div class="row g-0">
-						<div class="col-10">
-							<div class="position-relative">
-								<img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-								<div class="position-absolute start-0 bottom-0 w-100 py-3 px-4"
-									style="background: rgba(52, 173, 84, .85);">
-									<h4 class="text-white">Farmer Name</h4>
-									<span class="text-white">Designation</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-2">
-							<div
-								class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-								<a class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-twitter text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-facebook-f text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-linkedin-in text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-instagram text-secondary"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="row g-0">
-						<div class="col-10">
-							<div class="position-relative">
-								<img class="img-fluid w-100" src="assets/img/team-2.jpg" alt="">
-								<div class="position-absolute start-0 bottom-0 w-100 py-3 px-4"
-									style="background: rgba(52, 173, 84, .85);">
-									<h4 class="text-white">Farmer Name</h4>
-									<span class="text-white">Designation</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-2">
-							<div
-								class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-								<a class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-twitter text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-facebook-f text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-linkedin-in text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-instagram text-secondary"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="row g-0">
-						<div class="col-10">
-							<div class="position-relative">
-								<img class="img-fluid w-100" src="assets/img/team-3.jpg" alt="">
-								<div class="position-absolute start-0 bottom-0 w-100 py-3 px-4"
-									style="background: rgba(52, 173, 84, .85);">
-									<h4 class="text-white">Farmer Name</h4>
-									<span class="text-white">Designation</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-2">
-							<div
-								class="h-100 d-flex flex-column align-items-center justify-content-around bg-secondary py-5">
-								<a class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-twitter text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-facebook-f text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-linkedin-in text-secondary"></i></a> <a
-									class="btn btn-square rounded-circle bg-white" href="#"><i
-									class="fab fa-instagram text-secondary"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Team End -->
-
-
-	<!-- Blog Start -->
-	<div class="container-fluid py-5">
-		<div class="container">
-			<div class="mx-auto text-center mb-5" style="max-width: 500px;">
-				<h6 class="text-primary text-uppercase">Our Blog</h6>
-				<h1 class="display-5">Latest Articles From Our Blog Post</h1>
-			</div>
-			<div class="row g-5">
-				<div class="col-lg-4">
-					<div class="blog-item position-relative overflow-hidden">
-						<img class="img-fluid" src="assets/img/blog-1.jpg" alt=""> <a
-							class="blog-overlay" href="">
-							<h4 class="text-white">Lorem elitr magna stet eirmod labore
-								amet</h4> <span class="text-white fw-bold">Jan 01, 2050</span>
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="blog-item position-relative overflow-hidden">
-						<img class="img-fluid" src="assets/img/blog-2.jpg" alt=""> <a
-							class="blog-overlay" href="">
-							<h4 class="text-white">Lorem elitr magna stet eirmod labore
-								amet</h4> <span class="text-white fw-bold">Jan 01, 2050</span>
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="blog-item position-relative overflow-hidden">
-						<img class="img-fluid" src="assets/img/blog-3.jpg" alt=""> <a
-							class="blog-overlay" href="">
-							<h4 class="text-white">Lorem elitr magna stet eirmod labore
-								amet</h4> <span class="text-white fw-bold">Jan 01, 2050</span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 	<jsp:include page="footer.html" flush="true" />

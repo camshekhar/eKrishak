@@ -18,7 +18,7 @@ boolean status = false;
 // boolean crop_status = false;
 // ResultSet crop_rs;
 String fname = "", lname = "", city = "", email = "", cr_name = "";
-int id = 0;
+int ven_id = 0;
 
 try {
 
@@ -31,13 +31,13 @@ try {
 	status = rs.next();
 
 	if (status) {
-		id = rs.getInt(1);
+		ven_id = rs.getInt(1);
 		fname = rs.getString(2);
 		lname = rs.getString(3);
 		city = rs.getString(5);
 		email = rs.getString(7);
 
-		session.setAttribute("id", Integer.toString(id));
+		session.setAttribute("ven_id", Integer.toString(ven_id));
 		session.setAttribute("fname", fname);
 		session.setAttribute("email", email);
 		session.setAttribute("city", city);
@@ -95,9 +95,10 @@ catch (Exception e) {
 			<div class="navbar-nav mx-auto py-0">
 				<a href="vendorDashboard.jsp" class="nav-item nav-link active">Home</a>
 				<a href="/eKrishak/crops/cropListing.jsp" class="nav-item nav-link">List
-					Crops</a> <a href="/eKrishak/vendor/vendorLogin.jsp"
+					Crops</a> <a href="/eKrishak/vendor/approveCropPurchase.jsp"
 					class="nav-item nav-link">Approve Purchase</a>
-
+<a href="/eKrishak/vendor/bookVehicle.jsp"
+					class="nav-item nav-link">Book Vehicle</a>
 				<div class="nav-item dropdown">
 					<a href="#"
 						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
@@ -125,11 +126,11 @@ catch (Exception e) {
 	if (logMsg != null) {
 	%>
 	<div
-		class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto h-40"
-		role="alert">
+		class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto w-100"
+		role="alert" style="height: 20vh;">
 		<svg class="bi" role="img">
 			<use xlink:href="#check-circle-fill" /></svg>
-		<div class="fw-bold">
+		<div class="fw-bold text-center" style="font-size: 1.5rem;">
 			<%=logMsg%>
 			🥳.
 		</div>
@@ -155,7 +156,7 @@ catch (Exception e) {
 
 
 
-
+<jsp:include page="../footer.html" flush="true" />
 	<script type="text/javascript">
 	function googleTranslateElementInit() {
 	    new google.translate.TranslateElement({

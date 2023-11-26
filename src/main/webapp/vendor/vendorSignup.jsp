@@ -14,7 +14,28 @@
 </head>
 <body>
 
-	<jsp:include page="../navbar.html" flush="true" />
+	<jsp:include page="../topbar.html" flush="true" />
+	
+		<!-- Navbar Start -->
+	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
+			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav mx-auto py-0">
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
+				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link active">Vendor</a>
+				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
+
+				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar End -->
 
 	<section
 		style="background-image: url('assets/img/ploughing farmer.jpg'); height: 100% !important; padding: 10px 0px; background-color: #eee;">
@@ -26,7 +47,7 @@
 				<div class="col-lg-12 col-xl-11">
 
 					<div class="card text-black" style="border-radius: 25px;">
-						<h1 class="text-dark mt-5">Welcome, Vendors 🧑‍🌾</h1>
+						<h1 class="text-dark text-center mt-5">Welcome, Vendors 🧑‍🌾</h1>
 						<div class="card-body p-md-5">
 							<div class="row justify-content-center">
 

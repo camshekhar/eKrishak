@@ -137,3 +137,8 @@ position: absolute;
 	color: orangered !important;
 
 }
+
+.translator {
+	display: flex !important;
+	justify-content: flex-end !important;
+}

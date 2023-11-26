@@ -23,13 +23,35 @@ if (mobile != null) {
 </head>
 <body>
 
-	<jsp:include page="../navbar.html" flush="true" />
+	<jsp:include page="../topbar.html" flush="true" />
 
+	<!-- Navbar Start -->
+	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
+			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav mx-auto py-0">
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
+				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link active">Vendor</a>
+				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
 
+				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar End -->
 <% if(regMsg != null) { %>
-<div class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto h-40"  role="alert">
-  <svg class="bi" role="img" ><use xlink:href="#check-circle-fill"/></svg>
-  <div class="fw-bold">
+<div
+		class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto w-100"
+		role="alert" style="height: 20vh;">
+		<svg class="bi" role="img">
+			<use xlink:href="#check-circle-fill" /></svg>
+		<div class="fw-bold text-center" style="font-size: 1.5rem;">
 	 <%= regMsg %> 🥳.
  </div>
  <button type="button" onclick="<% session.removeAttribute("success"); %>" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -39,9 +61,12 @@ if (mobile != null) {
 <%} %>
 
 <% if(logMsg != null) { %>
-<div class="alert d-flex align-items-center alert-danger alert-dismissible p-0 mx-auto h-40"  role="alert">
-  <svg class="bi" role="img" ><use xlink:href="#check-circle-fill"/></svg>
-  <div class="fw-bold">
+<div
+		class="alert d-flex align-items-center alert-danger alert-dismissible p-0 mx-auto w-100"
+		role="alert" style="height: 20vh;">
+		<svg class="bi" role="img">
+			<use xlink:href="#check-circle-fill" /></svg>
+		<div class="fw-bold text-center" style="font-size: 1.5rem;">
 	 <%= logMsg %> 😓.
  </div>
  <button type="button" onclick="<% session.removeAttribute("logMsg"); %>" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -57,7 +82,7 @@ if (mobile != null) {
 					<div class="card" style="border-radius: 1rem;">
 						<div class="row g-0">
 							<div class="col-md-6 col-lg-5 d-none d-md-block">
-								<img src="../assets/img/vendorLogin.jpg" alt="login form"
+								<img src="../assets/img/vendorLogin2.jpg" alt="login form"
 									class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
 							</div>
 							<div class="col-md-6 col-lg-7 d-flex align-items-center">

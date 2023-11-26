@@ -1,32 +1,44 @@
-<%@page import="vendor.LoginDao"%>  
-<jsp:useBean id="obj" class="vendor.LoginUser"/>  
-  
-<jsp:setProperty property="*" name="obj"/>  
+<%@page import="connection.*, java.sql.*"%> 
   
 <%  
-boolean status=LoginDao.validate(obj);  
-if(status){  
+DB_Connection connection = null;
+
+String mobile, password;
+
+boolean status=false; 
+
+mobile = request.getParameter("mobile");
+password = request.getParameter("password");
+
+try{  
 	
-	String mobile = Integer.toString(LoginDao.mobile);
+connection = new DB_Connection(); 
 
-// System.out.println(mobile);
- session.setAttribute("loggedIn", true);
-session.setAttribute("mobile",mobile);  
-// 	out.print("Sorry, email or password error"); 
-response.sendRedirect("/eKrishak/vendor/vendorDashboard.jsp"); 
+String query = "Select * from driver_details where driver_contact="+ mobile +" and password='"+password+"'";
+
+              
+ResultSet rs = connection.getRecords(query);  
+status=rs.next();
+
+System.out.println(status); 
 
 
+}catch(Exception e){
+	System.out.println(e);
+}finally {
+	connection.closeConnection();
+}
 
-
+if(status){  
+	session.setAttribute("d_mobile", mobile);  
+	session.setAttribute("logMsg", "Login Successfull");
+	response.sendRedirect("/eKrishak/driver/driverDashboard.jsp"); 
 }  
 else  
 {  
-	session.setAttribute("loggedIn", false);
-response.sendRedirect("/eKrishak/vendor/vendorLogin.jsp");
-
+	session.setAttribute("logMsg", "Login Unsuccessfull!");
+	response.sendRedirect("/eKrishak/driver/driverLogin.jsp");
+}
 %>  
 
-<jsp:include page="../index.jsp"></jsp:include>  
-<%  
-}  
-%>  
+  

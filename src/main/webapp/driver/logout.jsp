@@ -9,7 +9,7 @@
 <body>
 <%
 session.invalidate();
-response.sendRedirect("/eKrishak/vendor/vendorLogin.jsp");
+response.sendRedirect("/eKrishak/driver/driverLogin.jsp");
 %>
 </body>
 </html>

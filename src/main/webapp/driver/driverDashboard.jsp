@@ -7,56 +7,42 @@
 <head>
 
 <%
-String mobile = (String) session.getAttribute("mobile");
+String mobile = (String) session.getAttribute("d_mobile");
 
 if (mobile == null) {
-	response.sendRedirect("vendorLogin.jsp");
+	response.sendRedirect("driverLogin.jsp");
 }
 
 boolean status = false;
-String fname = "", lname = "", city = "", email = "";
+String name = "", vehicle_type = "";
 int id = 0;
+DB_Connection connection = null;
 
 try {
 
-	DB_Connection connection = new DB_Connection();
+	connection = new DB_Connection();
 
-	Connection con = connection.get_connection();
+	String query = "Select * from driver_details where driver_contact=" + mobile;
 
-	PreparedStatement ps = con.prepareStatement("Select * from vendor_details where contact_no=?");
-
-	ps.setInt(1, Integer.parseInt(mobile));
-
-	ResultSet rs = ps.executeQuery();
+	ResultSet rs = connection.getRecords(query);
 
 	status = rs.next();
 
 	if (status) {
-		id = rs.getInt(1);
-		fname = rs.getString(2);
-		lname = rs.getString(3);
-		city = rs.getString(5);
-		email = rs.getString(7);
-		
-		
-		session.setAttribute("vendor_id", Integer.toString(id));
-		session.setAttribute("fname", fname);
-		session.setAttribute("email", email);
-		session.setAttribute("city", city);
-
+		id = rs.getInt("driver_id");
+		name = rs.getString("driver_name");
 	}
-	
-	else{
-		session.removeAttribute("mobile");
-		response.sendRedirect("vendorLogin.jsp");
-	}
-	
 
+	else {
+		session.removeAttribute("d_mobile");
+		response.sendRedirect("driverLogin.jsp");
+	}
 
 }
 
 catch (Exception e) {
 }
+
 %>
 
 
@@ -70,7 +56,7 @@ catch (Exception e) {
 	}
 
 	else {
-		out.print("Vendor - Welcome, " + fname.toUpperCase());
+		out.print("Driver - Welcome, " + name.toUpperCase());
 
 	}
 	%>
@@ -98,13 +84,12 @@ catch (Exception e) {
 			<div class="navbar-nav mx-auto py-0">
 				<a href="#" class="nav-item nav-link active">Home</a> <a
 					href="cropListing.jsp" class="nav-item nav-link">List Crops</a> <a
-					href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Approve
-					Purchase</a>
+					href="#" class="nav-item nav-link">Confirm Booking</a>
 
 				<div class="nav-item dropdown">
 					<a href="#"
 						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
-						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
+						data-bs-toggle="dropdown">Welcome, <%=name.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
 							href="#" class="dropdown-item  text-center p-2">Order History</a>

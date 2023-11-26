@@ -14,9 +14,29 @@
 </head>
 <body>
 
- <jsp:include page="../navbar.html" flush="true"/>
+ <jsp:include page="../topbar.html" flush="true"/>
  
-<section style="background-image: url('assets/img/ploughing farmer.jpg'); height: 100% !important; padding: 10px 0px; background-color: #eee;">
+ 	<!-- Navbar Start -->
+	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
+			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav mx-auto py-0">
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
+				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
+				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link active">Driver</a>
+
+				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
+			</div>
+		</div>
+	</nav>
+	<!-- Navbar End -->
+<section style="background-image: url('assets/img/ploughing farmer.jpg'); height: 100% !important; padding: 10px 0px;">
 
   <div class="container">
 
@@ -25,7 +45,7 @@
       <div class="col-lg-12 col-xl-11">
           
         <div class="card text-black" style="border-radius: 25px;">
-        <h1 class="text-dark mt-5">Welcome, Drivers 🚗</h1>
+        <h1 class="text-dark text-center mt-5">Welcome, Drivers 🚗</h1>
           <div class="card-body p-md-5">
             <div class="row justify-content-center">
  
@@ -40,20 +60,12 @@
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       
-                      <label class="form-label" for="form3Example1c">First Name</label>
-                      <input type="text" id="form3Example1c" class="form-control" name="fname" required/>
+                      <label class="form-label" for="form3Example1c">Name</label>
+                      <input type="text" id="form3Example1c" class="form-control" name="dname" required/>
                     </div>
                   </div>
                   
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-
-                      <label class="form-label" for="form3Example1c">Last Name</label>
-                      <input type="text" id="form3Example1c" class="form-control" name="lname" required/>
-                    </div>
-                  </div>
-                  
+                
                   <div class="d-flex flex-row align-items-center mb-4">
                    <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
@@ -63,14 +75,7 @@
                     </div>
                   </div>
                   
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                     
-                      <label class="form-label" for="form3Example3c">Email</label>
-                       <input type="email" id="form3Example3c" class="form-control" name="email" required/>
-                    </div>
-                  </div>
+               
                   
                   
                   <div class="d-flex flex-row align-items-center mb-4">
@@ -82,9 +87,22 @@
                     </div>
                   </div>
                   
-                  
-                  
-                  
+                 <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-car fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+									<label class="form-label" for="form3Example1q">Vehicle
+										Type:</label> 
+									<select class="form-outline select p-2 cursor-pointer" name="vehicle_type">
+											<option value="null" disabled selected>Select Vehicle
+												Type</option>
+											<option value="Truck">Truck</option>
+											<option value="Tractor">Tractor</option>
+											<option value="Lorry Van">Lorry Van</option>
+									</select>
+
+								</div>
+								</div>
+                
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-globe fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
