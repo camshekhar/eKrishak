@@ -14,17 +14,17 @@ int fCount = 0, vCount = 0, ordCount = 0, dCount = 0;
 
 try {
 	connection = new DB_Connection();
-	
+
 	String fQuery = "select count(*) from farmer_details";
 	String vQuery = "select count(*) from vendor_details";
 	String ordQuery = "select count(*) from crop_order_details";
 	String dQuery = "select count(*) from driver_details";
-	
+
 	ResultSet f_rs = connection.getRecords(fQuery);
 	ResultSet v_rs = connection.getRecords(vQuery);
 	ResultSet ord_rs = connection.getRecords(ordQuery);
 	ResultSet d_rs = connection.getRecords(dQuery);
-	
+
 	if (f_rs.next()) {
 		fCount = f_rs.getInt(1);
 	}
@@ -52,21 +52,36 @@ try {
 	<jsp:include page="topbar.html" flush="true" />
 
 	<!-- Navbar Start -->
-	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+	<nav
+		class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
 		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
-			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+			<h1 class="m-0 display-4 text-secondary">
+				<span class="text-white">eKri</span>shak
+			</h1>
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarCollapse">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link active">Home</a>
-				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
-				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
-				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
+				<a href="/eKrishak" class="nav-item nav-link active">Home</a> <a
+					href="/eKrishak/#aboutus" class="nav-item nav-link">About Us</a> <a
+					href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
 
-				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
+				<div class="nav-item dropdown">
+					<a href="#"
+						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
+						data-bs-toggle="dropdown">Login / Sign Up</a>
+					<div class="dropdown-menu m-0">
+						<a href="/eKrishak/farmer/farmerLogin.jsp"
+							class="dropdown-item  text-center p-2">Farmer</a> <a
+							href="/eKrishak/vendor/vendorLogin.jsp"
+							class="dropdown-item  text-center p-2">Vendor</a> <a
+							href="/eKrishak/driver/driverLogin.jsp"
+							class="dropdown-item  text-center p-2">Driver</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</nav>
@@ -159,7 +174,7 @@ try {
 
 
 	<!-- About Start -->
-	<div class="container-fluid about pt-5 "  id="aboutus">
+	<div class="container-fluid about pt-5 " id="aboutus">
 		<div class="container">
 			<div class="row gx-5">
 				<div class="col-lg-6 mb-5 mb-lg-0">
@@ -174,10 +189,10 @@ try {
 						<h1 class="display-5">We Provides Crop Selling and
 							Transportation Facilities for Farmers</h1>
 					</div>
-					<p class="mb-4">Tempor erat elitr at rebum at at clita. Diam
-						dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit,
-						sed stet no labore lorem sit. Sanctus clita duo justo et tempor
-						eirmod magna dolore erat amet magna</p>
+					<p class="mb-4">E-Krishak is a groundbreaking platform designed
+						to revolutionize the agricultural sector. Our website is dedicated
+						to empowering farmers and enhancing the efficiency of agricultural
+						practices.</p>
 					<div class="row gx-5 gy-4">
 						<div class="col-sm-6">
 							<i class="fa fa-seedling display-1 text-secondary"></i>
@@ -215,7 +230,7 @@ try {
 						</div>
 						<div class="ps-4">
 							<h5 class="text-white">Registered Farmers</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= fCount %></h1>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%=fCount%></h1>
 						</div>
 					</div>
 				</div>
@@ -228,7 +243,7 @@ try {
 						</div>
 						<div class="ps-4">
 							<h5 class="text-white">Registered Vendors</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= vCount %></h1>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%=vCount%></h1>
 						</div>
 					</div>
 				</div>
@@ -241,7 +256,7 @@ try {
 						</div>
 						<div class="ps-4">
 							<h5 class="text-white">Registered Drivers</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= dCount %></h1>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%=dCount%></h1>
 						</div>
 					</div>
 				</div>
@@ -254,7 +269,7 @@ try {
 						</div>
 						<div class="ps-4">
 							<h5 class="text-white">Orders Delivered</h5>
-							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%= ordCount %></h1>
+							<h1 class="display-5 text-white mb-0" data-toggle="counter-up"><%=ordCount%></h1>
 						</div>
 					</div>
 				</div>
@@ -298,12 +313,11 @@ try {
 				</div>
 				<div class="col-lg-6">
 					<div class="d-block bg-white h-100 text-center p-5 pb-lg-0">
-						<p>At et justo elitr amet sea at. Magna et sit vero at ipsum
-							sit et dolores rebum. Magna sea eos sit dolor, ipsum amet no
-							tempor ipsum eirmod lorem eirmod diam tempor dolor eos diam et et
-							diam dolor ea. Clita est rebum amet dolore sit. Dolor stet dolor
-							duo clita, vero dolor ipsum amet dolore magna lorem erat stet sed
-							vero dolor</p>
+						<p>Our platform is a one-stop destination for farmers to sell
+							their crops at competitive rates, access vital profitable
+							information, and efficiently transport their produce to market.
+							We’re committed to bridging information gaps, fostering financial
+							inclusion, and providing the tools farmers need to thrive.</p>
 						<img class="img-fluid" src="img/feature.png" alt="">
 					</div>
 				</div>

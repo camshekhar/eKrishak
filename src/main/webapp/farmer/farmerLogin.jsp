@@ -89,7 +89,7 @@ if (mobile != null) {
 							<div class="col-md-6 col-lg-7 d-flex align-items-center">
 								<div class="card-body p-4 p-lg-5 text-black">
 
-									<form action="loginProcess.jsp">
+									<form action="loginProcess.jsp" name="contact-form" onsubmit="return validateForm()">
 
 										<div
 											class="d-flex align-items-center justify-content-center mb-3 pb-1">
@@ -104,16 +104,16 @@ if (mobile != null) {
 											style="letter-spacing: 1px;">Login to Your Account</h5>
 
 										<div class="form-outline mb-4">
-											<label class="form-label" for="form2Example17">Mobile
-												Number</label> <input type="text" id="form2Example17"
-												class="form-control form-control-lg" name="mobile" />
+											<label class="form-label" for="form2Example17"><span class="text-danger fw-bold">*</span> Mobile
+												Number:</label> <input type="text" id="form2Example17"
+												class="form-control form-control-lg" name="mobile" required/>
 
 										</div>
 
 										<div class="form-outline mb-4">
-											<label class="form-label" for="form2Example27">Password</label>
+											<label class="form-label" for="form2Example27"><span class="text-danger fw-bold">*</span> Password:</label>
 											<input type="password" id="form2Example27"
-												class="form-control form-control-lg" name="password" />
+												class="form-control form-control-lg" name="password" required/>
 
 										</div>
 

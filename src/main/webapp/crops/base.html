@@ -43,3 +43,21 @@
 
     <!-- Template Javascript -->
     <script src="../assets/js/main.js"></script>
+    
+    <script type="text/javascript">
+	
+	function validateForm() {
+	    let cr_quant = document.forms["contact-form"]["cr_quant"].value;
+	    let cr_price = document.forms["contact-form"]["cr_price"].value;
+	    if(cr_quant < 1) {
+	      alert("Crop Quantity must be more than or equal to 1KG.");
+	      return false;
+	    }
+	    if(cr_price < 1) {
+	      alert("Crop Price must be more than or equal to ₹1.");
+	      return false;
+	    }
+	
+	  }
+	
+	</script>

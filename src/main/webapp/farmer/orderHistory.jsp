@@ -1,4 +1,5 @@
 
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="connection.*, java.sql.*"%>
 
@@ -9,46 +10,57 @@
 
 <%
 String mobile = (String) session.getAttribute("f_mobile");
-if(mobile == null){
-	session.setAttribute("logMsg", "You are Not Authorised to Access that Page.");
-	response.sendRedirect("/eKrishak/farmer/farmerLogin.jsp");
-}
 String logMsg = (String) session.getAttribute("logMsg");
 DB_Connection connection = null;
-boolean status = false;
-String fname = "", lname = "", city = "", email = "", cnf_mobile = "";
-int f_id = 0;
-
+boolean status = false, orderStatus = false;
+ResultSet farmer = null, order = null, details = null;
+String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", farmer_name = "";
+int f_id = 0, order_id=0, cropQuantity=0;
+Date dt = new Date();
 
 try {
 
 	connection = new DB_Connection();
 
 	String query = "Select * from farmer_details where f_contact=" + mobile;
+	
+	farmer = connection.getRecords(query);
 
-	ResultSet rs = connection.getRecords(query);
-
-	status = rs.next();
+	status = farmer.next();
 
 	if (status) {
-		f_id = rs.getInt(1);
-		fname = rs.getString(2);
-		lname = rs.getString(3);
-		city = rs.getString(5);
-		email = rs.getString(7);
-
+		f_id = farmer.getInt(1);
+		fname = farmer.getString(2);
+		lname = farmer.getString(3);
+		city = farmer.getString(5);
+		email = farmer.getString(7);
+		
 		session.setAttribute("f_id", Integer.toString(f_id));
 		session.setAttribute("fname", fname);
 		session.setAttribute("email", email);
 		session.setAttribute("city", city);
 
+		
+		String orderDetails = "Select * from crop_order_details where farmer_id=" + f_id;
+		order = connection.getRecords(orderDetails);
+		
+		String query2 = "Select * from crop_details, vendor_details where crop_details.buyer_id =  vendor_details.ven_id AND crop_details.seller_id=" + f_id;
+		
+		details = connection.getRecords(query2);
+		if(details.next()){
+			cropName = details.getString("cr_name");
+			farmer_name = details.getString("first_name")+ " " +details.getString("last_name");
+			cropQuantity = details.getInt("cr_quantity");
+		}
+
 	}
 
 	else {
 		session.removeAttribute("f_mobile");
-		response.sendRedirect("/eKrishak/farmer/farmerLogin.jsp");
-		
+		response.sendRedirect("farmerLogin.jsp");
 	}
+	
+	
 
 }
 
@@ -67,7 +79,7 @@ catch (Exception e) {
 	}
 
 	else {
-		out.println("Welcome, " + fname.toUpperCase());
+		out.println(fname.toUpperCase()+": Order History");
 
 	}
 	%>
@@ -103,8 +115,7 @@ catch (Exception e) {
 						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="/eKrishak/farmer/orderHistory.jsp"
-							class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/farmer/orderHistory.jsp" class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 
@@ -141,96 +152,64 @@ catch (Exception e) {
 	}
 	%>
 
-	<div class="container text-justify">
+	<div class="container">
 
-		<h1 class='text-warning text-center mt-2'>Dashboard</h1>
+		<h1 class='text-warning text-center mt-2'>Order History</h1>
 
 		<hr>
 
 
 
-		<main id="main" class="main">
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+			<%
+		
+			while (order.next()) {
+			orderStatus = true;
+			%>
 
-			<div class="pagetitle">
-				<h1>Dashboard</h1>
-				<nav>
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item active">Dashboard</li>
-					</ol>
-				</nav>
+			<div class="col">
+				<div class="card">
+	
+					<div class="card-body">
+						<h5 class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
+						<p class="card-text">
+							Order Date: <strong><%=order.getDate("orderDate")%>
+							</strong>
+						</p>
+						<p class="card-text">
+							Crop Name: <strong><%=cropName%>
+							</strong>
+						</p>
+						<p class="card-text">
+							Vendor Name: <strong><%=farmer_name.toUpperCase() %>
+							</strong>
+						</p>
+						<p class="card-text">
+							Total Order Quantity: <strong><%=cropQuantity%>KG</strong>
+						</p>
+						<p class="card-text">
+							Total Order Amount: ₹<strong><%=order.getInt("order_amount")%></strong>
+						</p>
+						<form action="receiptDownload.jsp">
+							<button
+							
+								class="btn btn-custom" disabled>Download Receipt</button>
+
+						</form>
+					</div>
+				</div>
 			</div>
-			<!-- End Page Title -->
+			<%
+			}
 
-			<section class="section dashboard">
-				<div class="row">
+			if(orderStatus == false) {
+			%>
+			<jsp:include page="noItem.html" flush="true" />
+			<%
+			}
+			%>
+		</div>
 
-					<!-- Left side columns -->
-					<div class="col-lg-8">
-						<div class="row">
-
-							<!-- Sales Card -->
-							<div class="col-xxl-4 col-md-6">
-								<div class="card info-card sales-card">
-
-
-
-									<div class="card-body">
-										<h5 class="card-title">
-											Sales <span>| Today</span>
-										</h5>
-
-										<div class="d-flex align-items-center">
-											<div
-												class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-												<i class="bi bi-cart"></i>
-											</div>
-											<div class="ps-3">
-												<h6>145</h6>
-												<span class="text-success small pt-1 fw-bold">12%</span> <span
-													class="text-muted small pt-2 ps-1">increase</span>
-
-											</div>
-										</div>
-									</div>
-
-								</div>
-							</div>
-							<!-- End Sales Card -->
-
-							<!-- Revenue Card -->
-							<div class="col-xxl-4 col-md-6">
-								<div class="card info-card revenue-card">
-
-
-									<div class="card-body">
-										<h5 class="card-title">
-											Revenue <span>| This Month</span>
-										</h5>
-
-										<div class="d-flex align-items-center">
-											<div
-												class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-												<i class="bi bi-currency-dollar"></i>
-											</div>
-											<div class="ps-3">
-												<h6>$3,264</h6>
-												<span class="text-success small pt-1 fw-bold">8%</span> <span
-													class="text-muted small pt-2 ps-1">increase</span>
-
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- End Revenue Card -->
-							</div>
-						</div>
-						<!-- End Left side columns -->
-
-			</section>
-
-		</main>
-		<!-- End #main -->
 
 	</div>
 

@@ -15,20 +15,25 @@
 <body>
 
 	<jsp:include page="../topbar.html" flush="true" />
-	
-		<!-- Navbar Start -->
-	<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
+
+	<!-- Navbar Start -->
+	<nav
+		class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
 		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
-			<h1 class="m-0 display-4 text-secondary"><span class="text-white">eKri</span>shak</h1>
+			<h1 class="m-0 display-4 text-secondary">
+				<span class="text-white">eKri</span>shak
+			</h1>
 		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarCollapse">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link">Home</a>
-				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link active">Farmer</a>
-				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
+				<a href="/eKrishak" class="nav-item nav-link">Home</a> <a
+					href="/eKrishak/farmer/farmerLogin.jsp"
+					class="nav-item nav-link active">Farmer</a> <a
+					href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
 				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
 
 				<a href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
@@ -57,16 +62,18 @@
 								<hr>
 								<div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-									<form class="mx-1 mx-md-4" action="regProcess.jsp">
+									<form class="mx-1 mx-md-4" action="regProcess.jsp"
+										name="contact-form" onsubmit="return validateForm()">
 
 
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example1c">First
-													Name</label> <input type="text" id="form3Example1c"
-													class="form-control" name="fname" required />
+												<label class="form-label" for="form3Example1c"><span
+													class="text-danger fw-bold">*</span> First Name</label> <input
+													type="text" id="form3Example1c" class="form-control"
+													name="fname" required />
 											</div>
 										</div>
 
@@ -74,9 +81,10 @@
 											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example1c">Last
-													Name</label> <input type="text" id="form3Example1c"
-													class="form-control" name="lname" required />
+												<label class="form-label" for="form3Example1c"><span
+													class="text-danger fw-bold">*</span> Last Name</label> <input
+													type="text" id="form3Example1c" class="form-control"
+													name="lname" required />
 											</div>
 										</div>
 
@@ -84,9 +92,11 @@
 											<i class="fas fa-phone fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example1c">Mobile
-													No.</label> <input type="text" id="form3Example1c"
-													class="form-control" name="mobile" maxlength="10" pattern="[789][0-9]{9}" placeholder="999999999" required/>
+												<label class="form-label" for="form3Example1c"><span
+													class="text-danger fw-bold">*</span> Mobile No.</label> <input
+													type="text" id="form3Example1c" class="form-control"
+													name="mobile" maxlength="10" pattern="[789][0-9]{9}"
+													placeholder="999999999" required />
 											</div>
 										</div>
 
@@ -94,8 +104,9 @@
 											<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example3c">Email</label>
-												<input type="email" id="form3Example3c" class="form-control"
+												<label class="form-label" for="form3Example3c"><span
+													class="text-danger fw-bold">*</span> Email</label> <input
+													type="email" id="form3Example3c" class="form-control"
 													name="email" required />
 											</div>
 										</div>
@@ -104,9 +115,10 @@
 											<i class="fas fa-key fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example1c">Password</label>
-												<input type="password" id="form3Example1c"
-													class="form-control" name="password" required />
+												<label class="form-label" for="form3Example1c"><span
+													class="text-danger fw-bold">*</span> Password</label> <input
+													type="password" id="form3Example1c" class="form-control"
+													name="password" required />
 											</div>
 										</div>
 
@@ -117,8 +129,9 @@
 											<i class="fas fa-globe fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example1c">State</label>
-												<input type="text" id="form3Example1c" class="form-control"
+												<label class="form-label" for="form3Example1c"><span
+													class="text-danger fw-bold">*</span> State</label> <input
+													type="text" id="form3Example1c" class="form-control"
 													name="state" required />
 											</div>
 										</div>
@@ -127,8 +140,9 @@
 											<i class="fas fa-globe fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example3c">City</label>
-												<input type="text" id="form3Example3c" class="form-control"
+												<label class="form-label" for="form3Example3c"><span
+													class="text-danger fw-bold">*</span> City</label> <input
+													type="text" id="form3Example3c" class="form-control"
 													name="city" required />
 											</div>
 										</div>
@@ -137,8 +151,9 @@
 											<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example4cd">Pincode</label>
-												<input type="text" id="form3Example4cd" class="form-control"
+												<label class="form-label" for="form3Example4cd"><span
+													class="text-danger fw-bold">*</span> Pincode</label> <input
+													type="text" id="form3Example4cd" class="form-control"
 													name="pincode" maxlength="6" required />
 											</div>
 										</div>
@@ -149,12 +164,16 @@
 											<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 
-												<label class="form-label" for="form3Example4c">Locality</label>
-												<input type="text" id="form3Example4c" class="form-control"
+												<label class="form-label" for="form3Example4c"><span
+													class="text-danger fw-bold">*</span> Locality</label> <input
+													type="text" id="form3Example4c" class="form-control"
 													name="locality" required />
 											</div>
 										</div>
-
+										<p class="mt-4">
+											<strong>Note: </strong> Fields marked with <span
+												class="text-danger fw-bold">*</span> are mandatory to fill.
+										</p>
 
 										<div class="form-check d-flex justify-content-center">
 											<p class="mb-5 pb-lg-2" style="color: #393f81;">

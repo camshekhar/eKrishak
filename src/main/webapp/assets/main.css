@@ -142,3 +142,7 @@ position: absolute;
 	display: flex !important;
 	justify-content: flex-end !important;
 }
+
+.goog-te-combo{
+	border: 2px solid rgb(117, 245, 1) !important;
+}

@@ -88,7 +88,7 @@ catch (Exception e) {
 						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="#" class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/farmer/orderHistory.jsp" class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 

@@ -1,3 +1,5 @@
+
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="connection.*, java.sql.*"%>
 
@@ -9,45 +11,56 @@
 <%
 String mobile = (String) session.getAttribute("ven_mobile");
 String logMsg = (String) session.getAttribute("logMsg");
-
-if (mobile == null) {
-	response.sendRedirect("vendorLogin.jsp");
-}
-
-boolean status = false;
-// boolean crop_status = false;
-// ResultSet crop_rs;
-String fname = "", lname = "", city = "", email = "", cr_name = "";
-int ven_id = 0;
+DB_Connection connection = null;
+boolean status = false, orderStatus = false;
+ResultSet vendor = null, order = null, details = null;
+String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", vendor_name = "";
+int ven_id = 0, order_id=0, cropQuantity=0;
+Date dt = new Date();
 
 try {
 
-	DB_Connection connection = new DB_Connection();
+	connection = new DB_Connection();
 
 	String query = "Select * from vendor_details where ven_contact=" + mobile;
+	
+	vendor = connection.getRecords(query);
 
-	ResultSet rs = connection.getRecords(query);
-
-	status = rs.next();
+	status = vendor.next();
 
 	if (status) {
-		ven_id = rs.getInt(1);
-		fname = rs.getString(2);
-		lname = rs.getString(3);
-		city = rs.getString(5);
-		email = rs.getString(7);
-
+		ven_id = vendor.getInt(1);
+		fname = vendor.getString(2);
+		lname = vendor.getString(3);
+		city = vendor.getString(5);
+		email = vendor.getString(7);
+		
 		session.setAttribute("ven_id", Integer.toString(ven_id));
 		session.setAttribute("fname", fname);
 		session.setAttribute("email", email);
 		session.setAttribute("city", city);
 
+		
+		String orderDetails = "Select * from crop_order_details where vendor_id=" + ven_id;
+		order = connection.getRecords(orderDetails);
+		
+		String query2 = "Select * from crop_details, farmer_details where crop_details.seller_id =  farmer_details.id AND crop_details.buyer_id=" + ven_id;
+		
+		details = connection.getRecords(query2);
+		if(details.next()){
+			cropName = details.getString("cr_name");
+			vendor_name = details.getString("first_name")+ " " +details.getString("last_name");
+			cropQuantity = details.getInt("cr_quantity");
+		}
+
 	}
 
 	else {
-		session.removeAttribute("mobile");
-		response.sendRedirect("vendorLogin.jsp");
+		session.removeAttribute("f_mobile");
+		response.sendRedirect("farmerLogin.jsp");
 	}
+	
+	
 
 }
 
@@ -66,7 +79,7 @@ catch (Exception e) {
 	}
 
 	else {
-		out.print("Vendor - Welcome, " + fname.toUpperCase());
+		out.println(fname.toUpperCase()+": Order History");
 
 	}
 	%>
@@ -74,8 +87,6 @@ catch (Exception e) {
 </title>
 </head>
 <body>
-	<%-- 	<jsp:include page="../navbar.html" flush="true" /> --%>
-
 	<jsp:include page="../topbar.html" flush="true" />
 
 	<!-- Navbar Start -->
@@ -121,7 +132,6 @@ catch (Exception e) {
 	</nav>
 
 
-
 	<%
 	if (logMsg != null) {
 	%>
@@ -134,9 +144,8 @@ catch (Exception e) {
 			<%=logMsg%>
 			🥳.
 		</div>
-		<button type="button"
-			onclick="<%session.removeAttribute("logMsg");%>" class="btn-close"
-			data-bs-dismiss="alert" aria-label="Close"></button>
+		<button type="button" onclick="<%session.removeAttribute("logMsg");%>"
+			class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
 	</div>
 
@@ -144,19 +153,69 @@ catch (Exception e) {
 	}
 	%>
 
-	<div
-		class="d-flex flex-column align-items-center justify-content-center">
+	<div class="container">
 
-		<h1 class='text-success'>Dashboard</h1>
+		<h1 class='text-warning text-center mt-2'>Order History</h1>
+
+		<hr>
+
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+			<%
+		
+			while (order.next()) {
+			orderStatus = true;
+			%>
+
+			<div class="col">
+				<div class="card">
+	
+					<div class="card-body">
+						<h5 class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
+						<p class="card-text">
+							Order Date: <strong><%=order.getDate("orderDate")%>
+							</strong>
+						</p>
+						<p class="card-text">
+							Crop Name: <strong><%=cropName%>
+							</strong>
+						</p>
+						<p class="card-text">
+							Vendor Name: <strong><%=vendor_name.toUpperCase() %>
+							</strong>
+						</p>
+						<p class="card-text">
+							Total Order Quantity: <strong><%=cropQuantity%>KG</strong>
+						</p>
+						<p class="card-text">
+							Total Order Amount: ₹<strong><%=order.getInt("order_amount")%></strong>
+						</p>
+						<form action="receiptDownload.jsp">
+							<button
+							
+								class="btn btn-custom" disabled>Download Receipt</button>
+
+						</form>
+					</div>
+				</div>
+			</div>
+			<%
+			}
+
+			if(orderStatus == false) {
+			%>
+			<jsp:include page="noItem.html" flush="true" />
+			<%
+			}
+			%>
+		</div>
+
+
 	</div>
 
 
-
-
-
-
-
-<jsp:include page="../footer.html" flush="true" />
+	<jsp:include page="../footer.html" flush="true" />
 	<script type="text/javascript">
 	function googleTranslateElementInit() {
 	    new google.translate.TranslateElement({
@@ -168,7 +227,6 @@ catch (Exception e) {
 		src="https://translate.google.com/translate_a/element.js?
 cb=googleTranslateElementInit"></script>
 	<script src="main.js"></script>
-
 
 </body>
 </html>

@@ -18,7 +18,7 @@ catch (Exception e) {
 }
 
 if(status>0) {
-	session.setAttribute("logMsg", "Bookking Request Sent.");
+	session.setAttribute("logMsg", "Booking Request Sent.");
 	response.sendRedirect("/eKrishak/vendor/vendorDashboard.jsp");
 }else{
 	session.setAttribute("logMsg", "Not Able to Book.");

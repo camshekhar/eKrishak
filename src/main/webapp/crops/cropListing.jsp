@@ -28,14 +28,10 @@ if (f_mobile != null || ven_mobile != null) {
 	}
 
 } else {
-	if (ven_mobile == null) {
-		response.sendRedirect("eKrishak/vendor/vendorLogin.jsp");
-	}
-	if (f_mobile == null) {
-		response.sendRedirect("eKrishak/farmer/farmerLogin.jsp");
+
+		response.sendRedirect("/eKrishak");
 	}
 
-}
 %>
 
 
@@ -75,7 +71,8 @@ if (f_mobile != null || ven_mobile != null) {
 						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="#" class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/farmer/orderHistory.jsp"
+							class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 
@@ -98,16 +95,17 @@ if (f_mobile != null || ven_mobile != null) {
 					href="/eKrishak/crops/cropListing.jsp"
 					class="nav-item nav-link active">List Crops</a> <a
 					href="/eKrishak/vendor/approveCropPurchase.jsp"
-					class="nav-item nav-link">Approve Purchase</a>
-<a href="/eKrishak/vendor/bookVehicle.jsp"
-					class="nav-item nav-link">Book Vehicle</a>
+					class="nav-item nav-link">Approve Purchase</a> <a
+					href="/eKrishak/vendor/bookVehicle.jsp" class="nav-item nav-link">Book
+					Vehicle</a>
 				<div class="nav-item dropdown">
 					<a href="#"
 						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
 						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="#" class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/vendor/orderHistory.jsp"
+							class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 
@@ -146,55 +144,66 @@ if (f_mobile != null || ven_mobile != null) {
 							<hr>
 
 							<form class="px-md-2" method="post"
-								action="/eKrishak/crops/cropListingProcess.jsp">
+								action="/eKrishak/crops/cropListingProcess.jsp"
+								name="contact-form" onsubmit="return validateForm()">
 
 								<div class="form-outline mb-4">
-									<label class="form-label" for="form3Example1q"><%=user%>
-										Id:</label> <input type="text" id="form3Example1q"
-										class="form-control" disabled="disabled" value="<%=id%>"
-										name="user_id" />
+									<label class="form-label" for="form3Example1q"><span
+										class="text-danger fw-bold">*</span> <%=user%> Id:</label> <input
+										type="text" id="form3Example1q" class="form-control"
+										disabled="disabled" value="<%=id%>" name="user_id" />
 
 								</div>
 
 								<div class="form-outline mb-4">
-									<label class="form-label" for="form3Example1q">Crop
-										Name:</label> <input type="text" id="form3Example1q"
-										class="form-control" name="cr_name" />
+									<label class="form-label" for="form3Example1q"><span
+										class="text-danger fw-bold">*</span> Crop Name:</label> <input
+										type="text" id="form3Example1q" class="form-control"
+										name="cr_name" required />
 
 								</div>
 
 
 								<div class="  col-md-6 mb-4">
 
-									<label class="form-label" for="form3Example1q">Crop
-										Type:</label> 
-									<select class="form-outline select p-2 cursor-pointer" name="cr_type">
-											<option value="null" disabled selected>Select Crop
-												Type</option>
-											<option value="Grains">Grains</option>
-											<option value="Pulses">Pulses</option>
-											<option value="Legumes">Legumes</option>
+									<label class="form-label" for="form3Example1q"><span
+										class="text-danger fw-bold">*</span> Crop Type:</label> <select
+										class="form-outline select p-2 cursor-pointer" name="cr_type"
+										required>
+										<option value="null" disabled selected>Select Crop
+											Type</option>
+										<option value="Grains">Grains</option>
+										<option value="Pulses">Pulses</option>
+										<option value="Legumes">Legumes</option>
 									</select>
 
 								</div>
 
 								<div class="form-outline mb-4">
-									<label class="form-label" for="form3Example1q">Crop
-										Quantity(KG):</label> <input type="text" id="form3Example1q"
-										class="form-control" name="cr_quant" />
+									<label class="form-label" for="form3Example1q"><span
+										class="text-danger fw-bold">*</span> Crop Quantity(KG):</label> <input
+										type="text" id="form3Example1q" class="form-control"
+										name="cr_quant" required />
 
 								</div>
 
 
 
 								<div class="form-outline mb-4">
-									<label class="form-label" for="form3Example1q">Crop
-										Price(₹/KG):</label> <input type="text" id="form3Example1q"
-										class="form-control" name="cr_price" />
+									<label class="form-label" for="form3Example1q"><span
+										class="text-danger fw-bold">*</span> Crop Price(₹/KG):</label> <input
+										type="text" id="form3Example1q" class="form-control"
+										name="cr_price" required />
 
 								</div>
 
 
+								<div class="form-outline mb-4">
+									<label for="formFilesm" class="form-label">Upload Crop
+										Image:</label> <input class="form-control form-control-sm"
+										id="formFilesm" type="file" name="cr_img" />
+
+								</div>
 
 								<button type="submit" class="btn btn-success btn-lg mb-1">Submit</button>
 

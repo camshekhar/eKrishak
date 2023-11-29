@@ -31,6 +31,8 @@ try {
 	if (status) {
 		id = rs.getInt("driver_id");
 		name = rs.getString("driver_name");
+		session.setAttribute("driver_id", Integer.toString(id));
+		session.setAttribute("name", name);
 	}
 
 	else {
@@ -82,9 +84,8 @@ catch (Exception e) {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="#" class="nav-item nav-link active">Home</a> <a
-					href="cropListing.jsp" class="nav-item nav-link">List Crops</a> <a
-					href="#" class="nav-item nav-link">Confirm Booking</a>
+				<a href="driverDashboard.jsp" class="nav-item nav-link active">Home</a> <a
+					href="/eKrishak/driver/confirmBooking.jsp" class="nav-item nav-link">Confirm Booking</a>
 
 				<div class="nav-item dropdown">
 					<a href="#"
@@ -92,7 +93,7 @@ catch (Exception e) {
 						data-bs-toggle="dropdown">Welcome, <%=name.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="#" class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/driver/orderHistory.jsp" class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 

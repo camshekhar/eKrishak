@@ -36,7 +36,7 @@ if(status){
 }  
 else  
 {  
-	session.setAttribute("logMsg", "Login Unsuccessfull!");
+	session.setAttribute("logMsg", "Invalid Credentials - Login Unsuccessfull!");
 	response.sendRedirect("/eKrishak/driver/driverLogin.jsp");
 }
 %>  

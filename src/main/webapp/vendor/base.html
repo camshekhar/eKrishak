@@ -57,3 +57,17 @@
       src="https://translate.google.com/translate_a/element.js?
 cb=googleTranslateElementInit"
     ></script>
+    
+    
+  <script type="text/javascript">
+	
+	function validateForm() {
+	    let mobile = document.forms["contact-form"]["mobile"].value;
+	    mobile = mobile.charAt(0);
+	    if (mobile != 8 || mobile != 7 || mobile != 9 ) {
+	      alert("Mobile Number must Starts with 7,8 or 9.");
+	      return false;
+	   
+	  }
+	
+	</script>
