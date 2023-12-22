@@ -19,4 +19,24 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ReceiptDownload</display-name>
+    <servlet-name>ReceiptDownload</servlet-name>
+    <servlet-class>farmer.ReceiptDownload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReceiptDownload</servlet-name>
+    <url-pattern>/ReceiptDownload</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReceiptGenerate</display-name>
+    <servlet-name>ReceiptGenerate</servlet-name>
+    <servlet-class>ReceiptGenerate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReceiptGenerate</servlet-name>
+    <url-pattern>/ReceiptGenerate</url-pattern>
+  </servlet-mapping>
 </web-app>

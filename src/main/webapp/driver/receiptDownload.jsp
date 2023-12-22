@@ -6,25 +6,34 @@
 
 <%
 
-String f_id = (String) session.getAttribute("f_id");
+String ven_id = (String) session.getAttribute("vendor_id");
+String f_id = (String) session.getAttribute("farmer_id");
+String d_id = (String) session.getAttribute("d_id");
+String city = (String) session.getAttribute("city");
 DB_Connection connection = null;
 
-ResultSet order = null, details = null;;
-String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", vendor_name = "";
-int i = 0, cropQuantity=0, totalAmount=0;
+ResultSet order = null, details = null, fDetails = null;
+String fname = "", lname = "", cropName = "", vendor_name = "", farmer_name = "";
+int i = 0, cropQuantity=0;
 
 try {
 	connection = new DB_Connection();
 
-	String orderDetails = "Select * from crop_order_details where farmer_id="+f_id;
+	String query = "Select * from crop_order_details where driver_id="+d_id;
 	String query2 = "Select * from crop_details, vendor_details where crop_details.buyer_id =  vendor_details.ven_id AND crop_details.seller_id=" + f_id;
-	order = connection.getRecords(orderDetails);
+	String query3 = "Select * from farmer_details where id="+f_id;
+	order = connection.getRecords(query);
 	details = connection.getRecords(query2);
+	fDetails = connection.getRecords(query3);
 	if(details.next()){
 		cropName = details.getString("cr_name");
 		vendor_name = details.getString("first_name")+ " " +details.getString("last_name");
 		cropQuantity = details.getInt("cr_quantity");
 	}
+	if(fDetails.next()){
+		
+		farmer_name = details.getString("first_name")+ " " +details.getString("last_name");
+		}
 
 } catch (Exception e) {
 	System.out.println(e);
@@ -59,34 +68,36 @@ try {
 					<tr>
 						<th scope="col">Sr. No.</th>
 						<th scope="col">Order Id</th>
-						<th scope="col">Farmer Id</th>
+						<th scope="col">Farmer Name</th>
 						<th scope="col">Crop Name</th>
-						
 						<th scope="col">Vendor Name</th>
-						<th scope="col">Order Amount</th>
+						<th scope="col">Crop Quantity</th>
+						<th scope="col">City</th>
+						
 					</tr>
 				</thead>
 				<tbody class="table-group-divider">
 				<% while(order.next()){
 					i = i + 1;
-					totalAmount += order.getInt("order_amount");
+					
 					%>
 				
 					<tr class="text-end">
 						<th scope="row"><%= i %></th>
 						<td><%= order.getInt("order_id") %></td>
 						
-						<td><%= order.getInt("farmer_id") %></td>
+						<td><%= farmer_name.toUpperCase() %></td>
 						<td><%= cropName %></td>
-						<td><%= vendor_name %></td>
-						<td>₹<%= order.getInt("order_amount") %></td>
+						<td><%= vendor_name.toUpperCase() %></td>
+						<td><%= cropQuantity %></td>
+						<td><%= city %></td>
+						
 						
 					</tr>
 						
 				<%} %>
-				<tr >
-					<td class="text-end" colspan="6">Total Amount: ₹<%= totalAmount %></td>
-						</tr>
+			
+				
 				</tbody>
 						
 			</table>

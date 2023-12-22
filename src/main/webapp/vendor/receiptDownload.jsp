@@ -6,23 +6,23 @@
 
 <%
 
-String f_id = (String) session.getAttribute("f_id");
+String ven_id = (String) session.getAttribute("ven_id");
 DB_Connection connection = null;
 
 ResultSet order = null, details = null;;
-String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", vendor_name = "";
+String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", farmer_name = "";
 int i = 0, cropQuantity=0, totalAmount=0;
 
 try {
 	connection = new DB_Connection();
 
-	String orderDetails = "Select * from crop_order_details where farmer_id="+f_id;
-	String query2 = "Select * from crop_details, vendor_details where crop_details.buyer_id =  vendor_details.ven_id AND crop_details.seller_id=" + f_id;
+	String orderDetails = "Select * from crop_order_details where vendor_id="+ven_id;
+	String query2 = "Select * from crop_details, farmer_details where crop_details.seller_id =  farmer_details.id AND crop_details.buyer_id=" + ven_id;
 	order = connection.getRecords(orderDetails);
 	details = connection.getRecords(query2);
 	if(details.next()){
 		cropName = details.getString("cr_name");
-		vendor_name = details.getString("first_name")+ " " +details.getString("last_name");
+		farmer_name = details.getString("first_name")+ " " +details.getString("last_name");
 		cropQuantity = details.getInt("cr_quantity");
 	}
 
@@ -37,7 +37,7 @@ try {
 <!-- Include html2pdf library -->
 <script
 	src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-<title>Vendor: Order Detail</title>
+<title>Farmer: Order Detail</title>
 </head>
 <body>
 
@@ -59,10 +59,10 @@ try {
 					<tr>
 						<th scope="col">Sr. No.</th>
 						<th scope="col">Order Id</th>
-						<th scope="col">Farmer Id</th>
+						<th scope="col">Vendor Id</th>
 						<th scope="col">Crop Name</th>
 						
-						<th scope="col">Vendor Name</th>
+						<th scope="col">Farmer Name</th>
 						<th scope="col">Order Amount</th>
 					</tr>
 				</thead>
@@ -76,9 +76,9 @@ try {
 						<th scope="row"><%= i %></th>
 						<td><%= order.getInt("order_id") %></td>
 						
-						<td><%= order.getInt("farmer_id") %></td>
+						<td><%= order.getInt("vendor_id") %></td>
 						<td><%= cropName %></td>
-						<td><%= vendor_name %></td>
+						<td><%= farmer_name %></td>
 						<td>₹<%= order.getInt("order_amount") %></td>
 						
 					</tr>

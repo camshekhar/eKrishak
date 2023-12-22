@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+	
+	<%
+	
+	String duplicate = (String) session.getAttribute("duplicate");
+	
+
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +38,8 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link">Home</a> <a
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a> <a
 					href="/eKrishak/farmer/farmerLogin.jsp"
 					class="nav-item nav-link active">Farmer</a> <a
 					href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
@@ -41,6 +50,21 @@
 		</div>
 	</nav>
 	<!-- Navbar End -->
+	
+	<% if(duplicate != null) { %>
+<div
+		class="alert d-flex align-items-center alert-danger alert-dismissible p-0 mx-auto w-100"
+		role="alert" style="height: 20vh;">
+		<svg class="bi" role="img">
+			<use xlink:href="#check-circle-fill" /></svg>
+		<div class="fw-bold text-center" style="font-size: 1.5rem;">
+	 <%= duplicate %> 😓.
+ </div>
+ <button type="button" onclick="<% session.removeAttribute("logMsg"); %>" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+</div>
+
+<%} %>
 
 	<section
 		style="height: 100% !important; padding: 10px 0px; background-color: #eee;">

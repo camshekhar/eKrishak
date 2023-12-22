@@ -8,6 +8,7 @@
 
 <%
 String mobile = (String) session.getAttribute("d_mobile");
+String logMsg = (String) session.getAttribute("logMsg");
 
 if (mobile == null) {
 	response.sendRedirect("driverLogin.jsp");
@@ -109,7 +110,27 @@ catch (Exception e) {
 	</nav>
 
 
+	<%
+	if (logMsg != null) {
+	%>
+	<div
+		class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto w-100"
+		role="alert" style="height: 20vh;">
+		<svg class="bi" role="img">
+			<use xlink:href="#check-circle-fill" /></svg>
+		<div class="fw-bold text-center" style="font-size: 1.5rem;">
+			<%=logMsg%>
+			🥳.
+		</div>
+		<button type="button"
+			onclick="<%session.removeAttribute("logMsg");%>" class="btn-close"
+			data-bs-dismiss="alert" aria-label="Close"></button>
 
+	</div>
+
+	<%
+	}
+	%>
 
 
 	<div

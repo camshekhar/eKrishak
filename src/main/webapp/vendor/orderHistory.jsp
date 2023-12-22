@@ -173,10 +173,7 @@ catch (Exception e) {
 	
 					<div class="card-body">
 						<h5 class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
-						<p class="card-text">
-							Order Date: <strong><%=order.getDate("orderDate")%>
-							</strong>
-						</p>
+						
 						<p class="card-text">
 							Crop Name: <strong><%=cropName%>
 							</strong>
@@ -191,12 +188,12 @@ catch (Exception e) {
 						<p class="card-text">
 							Total Order Amount: ₹<strong><%=order.getInt("order_amount")%></strong>
 						</p>
-						<form action="receiptDownload.jsp">
-							<button
+						
+							<a href="receiptDownload.jsp" target="_blank"
 							
-								class="btn btn-custom" disabled>Download Receipt</button>
+								 class="btn btn-custom" >Show Receipt</a>
 
-						</form>
+					
 					</div>
 				</div>
 			</div>

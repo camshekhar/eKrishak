@@ -31,7 +31,7 @@ try {
 	order_amount = cr_quant * cr_price;
 	String orderQuery = "insert into crop_order_details(order_id, crop_id, farmer_id, vendor_id, driver_id, order_amount, approved) values("+order_id+","+crop_id+","+farmer_id+","+Integer.parseInt(vendor_id)+","+null+","+order_amount+", "+approved+")";
 	orderStatus = connection.storeRecord(orderQuery);
-	session.setAttribute("farmer_id", Integer.toString(farmer_id));
+	session.setAttribute("order_id", order_id);
 }
 
 catch (Exception e) {

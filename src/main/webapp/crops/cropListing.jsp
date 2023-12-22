@@ -59,7 +59,9 @@ if (f_mobile != null || ven_mobile != null) {
 				if (user.equals("Farmer")) {
 				%>
 				<a href="/eKrishak/farmer/farmerDashboard.jsp"
-					class="nav-item nav-link">Home</a> <a
+					class="nav-item nav-link">Home</a> 
+					<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a>
+					<a
 					href="/eKrishak/crops/cropListing.jsp"
 					class="nav-item nav-link active">List Crops</a> <a
 					href="/eKrishak/farmer/sellCrops.jsp" class="nav-item nav-link">Sell

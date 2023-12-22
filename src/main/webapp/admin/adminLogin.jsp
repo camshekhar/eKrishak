@@ -6,19 +6,19 @@
 <head>
 
 <%
-String mobile = (String) session.getAttribute("mobile");
-String regMsg = (String)session.getAttribute("success");
+String admin_email = (String) session.getAttribute("admin_email");
+
 String logMsg = (String)session.getAttribute("logMsg");
 
-if (mobile != null) {
-	response.sendRedirect("farmerDashboard.jsp");
+if (admin_email != null) {
+	response.sendRedirect("/eKrishak/admin/adminDashboard.jsp");
 }
 
 %>
 
 <jsp:include page="base.html" flush="true" />
 
-<title>Farmer Login - eKrishak</title>
+<title>Admin Login - eKrishak</title>
 
 </head>
 <body>
@@ -35,8 +35,8 @@ if (mobile != null) {
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
 				<a href="/eKrishak" class="nav-item nav-link">Home</a>
-				<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a>
-				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link active">Farmer</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link active">Admin</a>
+				<a href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
 				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
 				<a href="/eKrishak/driver/driverLogin.jsp" class="nav-item nav-link">Driver</a>
 
@@ -46,20 +46,7 @@ if (mobile != null) {
 	</nav>
 	<!-- Navbar End -->
 
-<% if(regMsg != null) { %>
-<div
-		class="alert d-flex align-items-center alert-success alert-dismissible p-0 mx-auto w-100"
-		role="alert" style="height: 20vh;">
-		<svg class="bi" role="img">
-			<use xlink:href="#check-circle-fill" /></svg>
-		<div class="fw-bold text-center" style="font-size: 1.5rem;">
-	 <%= regMsg %> 🥳.
- </div>
- <button type="button" onclick="<% session.removeAttribute("success"); %>" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-</div>
-
-<%} %>
 
 <% if(logMsg != null) { %>
 <div
@@ -84,7 +71,7 @@ if (mobile != null) {
 					<div class="card" style="border-radius: 1rem;">
 						<div class="row g-0">
 							<div class="col-md-6 col-lg-5 d-none d-md-block">
-								<img src="../assets/img/farmerLogin.jpg" alt="login form"
+								<img src="../assets/img/adminLogin.avif" alt="login form"
 									class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
 							</div>
 							<div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -96,7 +83,7 @@ if (mobile != null) {
 											class="d-flex align-items-center justify-content-center mb-3 pb-1">
 
 											<span class="h1 fw-bold mb-0 text-center"> Howdy!
-												Farmer 🧑‍🌾 </span>
+												Admin 👨🏻‍💻 </span>
 										</div>
 
 
@@ -105,9 +92,8 @@ if (mobile != null) {
 											style="letter-spacing: 1px;">Login to Your Account</h5>
 
 										<div class="form-outline mb-4">
-											<label class="form-label" for="form2Example17"><span class="text-danger fw-bold">*</span> Mobile
-												Number:</label> <input type="text" id="form2Example17"
-												class="form-control form-control-lg" name="mobile" maxlength="10" required/>
+											<label class="form-label" for="form2Example17"><span class="text-danger fw-bold">*</span> Admin Email:</label> <input type="email" id="form2Example17"
+												class="form-control form-control-lg" name="email" required/>
 
 										</div>
 
@@ -123,12 +109,7 @@ if (mobile != null) {
 												type="button">Login</button>
 										</div>
 
-										<a class="small text-muted" href="#!">Forgot password?</a>
-										<p class="mb-5 pb-lg-2" style="color: #393f81;">
-											Don't have an account? <a class="text-decoration-underline"
-												href="farmerSignup.jsp" style="color: #393f81;">Register
-												here</a>
-										</p>
+									
 
 									</form>
 

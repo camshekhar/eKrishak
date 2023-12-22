@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to PDF</title>
+    <!-- Include html2pdf library -->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+</head>
+<body>
+
+    <!-- Your HTML content goes here -->
+
+    <script>
+        // Function to convert HTML to PDF and trigger download
+        function downloadPDF() {
+            var element = document.body; // The element you want to convert to PDF
+
+            html2pdf(element, {
+                margin: 10,
+                filename: 'document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        }
+    </script>
+
+    <!-- Button to trigger the download -->
+    <button onclick="downloadPDF()">Download PDF</button>
+
+</body>
+</html>

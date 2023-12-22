@@ -15,9 +15,10 @@ if(mobile == null){
 }
 String logMsg = (String) session.getAttribute("logMsg");
 DB_Connection connection = null;
+ResultSet rs = null, order = null;
 boolean status = false;
 String fname = "", lname = "", city = "", email = "", cnf_mobile = "";
-int f_id = 0;
+int f_id = 0, ordCount = 0, totalRev = 0;
 
 
 try {
@@ -26,11 +27,12 @@ try {
 
 	String query = "Select * from farmer_details where f_contact=" + mobile;
 
-	ResultSet rs = connection.getRecords(query);
+	rs = connection.getRecords(query);
 
 	status = rs.next();
 
 	if (status) {
+	
 		f_id = rs.getInt(1);
 		fname = rs.getString(2);
 		lname = rs.getString(3);
@@ -41,6 +43,12 @@ try {
 		session.setAttribute("fname", fname);
 		session.setAttribute("email", email);
 		session.setAttribute("city", city);
+		String ordQuery = "select * from crop_order_details where farmer_id="+f_id;
+		order = connection.getRecords(ordQuery);
+		while(order.next()){
+			ordCount = ordCount + 1;
+			totalRev += order.getInt("order_amount");
+		}
 
 	}
 
@@ -155,7 +163,7 @@ catch (Exception e) {
 				<h1>Dashboard</h1>
 				<nav>
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+						
 						<li class="breadcrumb-item active">Dashboard</li>
 					</ol>
 				</nav>
@@ -177,7 +185,7 @@ catch (Exception e) {
 
 									<div class="card-body">
 										<h5 class="card-title">
-											Sales <span>| Today</span>
+											Total <span>| Sales</span>
 										</h5>
 
 										<div class="d-flex align-items-center">
@@ -186,10 +194,7 @@ catch (Exception e) {
 												<i class="bi bi-cart"></i>
 											</div>
 											<div class="ps-3">
-												<h6>145</h6>
-												<span class="text-success small pt-1 fw-bold">12%</span> <span
-													class="text-muted small pt-2 ps-1">increase</span>
-
+												<h6><%= ordCount %></h6>
 											</div>
 										</div>
 									</div>
@@ -205,7 +210,7 @@ catch (Exception e) {
 
 									<div class="card-body">
 										<h5 class="card-title">
-											Revenue <span>| This Month</span>
+											Total <span>| Revenue</span>
 										</h5>
 
 										<div class="d-flex align-items-center">
@@ -214,10 +219,7 @@ catch (Exception e) {
 												<i class="bi bi-currency-dollar"></i>
 											</div>
 											<div class="ps-3">
-												<h6>$3,264</h6>
-												<span class="text-success small pt-1 fw-bold">8%</span> <span
-													class="text-muted small pt-2 ps-1">increase</span>
-
+												<h6>₹<%= totalRev %></h6>
 											</div>
 										</div>
 									</div>

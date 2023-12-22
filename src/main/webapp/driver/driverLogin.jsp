@@ -38,7 +38,9 @@ if (mobile != null) {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link">Home</a> <a
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a>
+				 <a
 					href="/eKrishak/farmer/farmerLogin.jsp" class="nav-item nav-link">Farmer</a>
 				<a href="/eKrishak/vendor/vendorLogin.jsp" class="nav-item nav-link">Vendor</a>
 				<a href="/eKrishak/driver/driverLogin.jsp"

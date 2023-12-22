@@ -8,10 +8,13 @@
 <jsp:include page="base.html" flush="true" />
 
 <%
+String f_mobile = (String) session.getAttribute("f_mobile");
+String ven_mobile = (String) session.getAttribute("ven_mobile");
+
 DB_Connection connection = null;
 boolean status = false;
 int fCount = 0, vCount = 0, ordCount = 0, dCount = 0;
-
+String fname = "";
 try {
 	connection = new DB_Connection();
 
@@ -38,6 +41,25 @@ try {
 		dCount = d_rs.getInt(1);
 	}
 
+	if (f_mobile != null) {
+		String query = "Select * from farmer_details where f_contact=" + f_mobile;
+
+		ResultSet rs = connection.getRecords(query);
+
+		if (rs.next()) {
+	fname = rs.getString("first_name");
+		}
+	}
+	if (ven_mobile != null) {
+		String query = "Select * from vendor_details where ven_contact=" + ven_mobile;
+
+		ResultSet rs = connection.getRecords(query);
+
+		if (rs.next()) {
+	fname = rs.getString("first_name");
+		}
+	}
+
 } catch (Exception e) {
 	System.out.println(e);
 } finally {
@@ -49,9 +71,11 @@ try {
 
 <body>
 
+
 	<jsp:include page="topbar.html" flush="true" />
 
 	<!-- Navbar Start -->
+
 	<nav
 		class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
 		<a href="/eKrishak" class="navbar-brand d-flex d-lg-none">
@@ -65,10 +89,46 @@ try {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link active">Home</a> <a
+			
+				<a href="/eKrishak" class="nav-item nav-link active">Home</a> 
+				<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a><a
 					href="/eKrishak/#aboutus" class="nav-item nav-link">About Us</a> <a
 					href="/eKrishak/contactUs.jsp" class="nav-item nav-link">Contact</a>
 
+
+				<%
+				if (f_mobile != null || ven_mobile != null) {
+				%>
+				<div class="nav-item dropdown">
+					<a href="#"
+						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
+						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
+					<div class="dropdown-menu m-0">
+						<a <%if (f_mobile != null) {%>
+							href="/eKrishak/farmer/farmerDashboard.jsp" <%}%>
+							<%if (ven_mobile != null) {%>
+							href="/eKrishak/vendor/vendorDashboard.jsp" <%}%>
+							class="dropdown-item  text-center p-2">Profile</a> <a
+							<%if (f_mobile != null) {%>
+							href="/eKrishak/farmer/orderHistory.jsp" <%}%>
+							<%if (ven_mobile != null) {%>
+							href="/eKrishak/vendor/orderHistory.jsp" <%}%>
+							class="dropdown-item  text-center p-2">Order History</a>
+
+						<div class="dropdown-item bg-danger">
+
+							<form method='post' <%if (f_mobile != null) {%>
+								action='/eKrishak/farmer/logout.jsp' <%}%>
+								<%if (ven_mobile != null) {%>
+								action='/eKrishak/vendor/logout.jsp' <%}%>>
+								<button class='btn btn-danger text-center w-100' type='submit'>Logout</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<%
+				} else {
+				%>
 				<div class="nav-item dropdown">
 					<a href="#"
 						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
@@ -81,13 +141,18 @@ try {
 							href="/eKrishak/driver/driverLogin.jsp"
 							class="dropdown-item  text-center p-2">Driver</a>
 					</div>
+
 				</div>
+				<%
+				}
+				%>
 			</div>
 		</div>
 	</nav>
 	<!-- Navbar End -->
+
 	<!-- Carousel Start -->
-	<div class="container-fluid p-0">
+	<div class="container-fluid p-0 ">
 		<div id="header-carousel" class="carousel slide carousel-fade"
 			data-bs-ride="carousel">
 			<div class="carousel-inner">
@@ -133,6 +198,7 @@ try {
 			</button>
 		</div>
 	</div>
+
 	<!-- Carousel End -->
 
 
@@ -170,11 +236,12 @@ try {
 			</div>
 		</div>
 	</div>
-	<!-- Banner Start -->
+	<!-- Banner End -->
+
 
 
 	<!-- About Start -->
-	<div class="container-fluid about pt-5 " id="aboutus">
+	<div class="container-fluid about pt-5" id="aboutus">
 		<div class="container">
 			<div class="row gx-5">
 				<div class="col-lg-6 mb-5 mb-lg-0">
@@ -280,6 +347,7 @@ try {
 
 
 	<!-- Features Start -->
+
 	<div class="container-fluid bg-primary feature py-5 pb-lg-0 my-5">
 		<div class="container py-5 pb-lg-0">
 			<div class="mx-auto text-center mb-3 pb-2" style="max-width: 500px;">
@@ -355,6 +423,7 @@ try {
 	<!-- Back to Top -->
 	<a href="#" class="btn btn-secondary py-3 fs-4 back-to-top"><i
 		class="bi bi-arrow-up"></i></a>
+
 
 
 </body>

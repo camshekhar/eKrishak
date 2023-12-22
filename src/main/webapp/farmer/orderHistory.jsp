@@ -1,5 +1,3 @@
-
-<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="connection.*, java.sql.*"%>
 
@@ -16,7 +14,7 @@ boolean status = false, orderStatus = false;
 ResultSet farmer = null, order = null, details = null;
 String fname = "", lname = "", city = "", email = "", cnf_mobile = "", cropName = "", farmer_name = "";
 int f_id = 0, order_id=0, cropQuantity=0;
-Date dt = new Date();
+
 
 try {
 
@@ -171,9 +169,9 @@ catch (Exception e) {
 				<div class="card">
 	
 					<div class="card-body">
-						<h5 class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
+						<h5 id="order_id" class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
 						<p class="card-text">
-							Order Date: <strong><%=order.getDate("orderDate")%>
+					<%-- 	 <strong><%=order.getDate("orderDate")%> --%>
 							</strong>
 						</p>
 						<p class="card-text">
@@ -190,12 +188,12 @@ catch (Exception e) {
 						<p class="card-text">
 							Total Order Amount: ₹<strong><%=order.getInt("order_amount")%></strong>
 						</p>
-						<form action="receiptDownload.jsp">
-							<button
+					
+							<a href="receiptDownload.jsp" target="_blank"
 							
-								class="btn btn-custom" disabled>Download Receipt</button>
+								 class="btn btn-custom" >Show Receipt</a>
 
-						</form>
+					
 					</div>
 				</div>
 			</div>
@@ -215,6 +213,7 @@ catch (Exception e) {
 
 
 	<jsp:include page="../footer.html" flush="true" />
+
 	<script type="text/javascript">
 	function googleTranslateElementInit() {
 	    new google.translate.TranslateElement({

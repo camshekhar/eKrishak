@@ -31,7 +31,9 @@ String error = (String) session.getAttribute("error");
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="/eKrishak" class="nav-item nav-link">Home</a> <a
+				<a href="/eKrishak" class="nav-item nav-link">Home</a>
+				<a href="/eKrishak/admin/adminLogin.jsp" class="nav-item nav-link">Admin</a>
+				 <a
 					href="/eKrishak/#aboutus" class="nav-item nav-link">About Us</a> <a
 					href="/eKrishak/contactUs.jsp" class="nav-item nav-link active">Contact</a>
 

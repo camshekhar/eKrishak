@@ -9,7 +9,8 @@
 <%
 String mobile = (String) session.getAttribute("ven_mobile");
 String logMsg = (String) session.getAttribute("logMsg");
-
+ResultSet rs = null, order = null;
+int ordCount = 0, totalRev = 0;
 if (mobile == null) {
 	response.sendRedirect("vendorLogin.jsp");
 }
@@ -26,7 +27,7 @@ try {
 
 	String query = "Select * from vendor_details where ven_contact=" + mobile;
 
-	ResultSet rs = connection.getRecords(query);
+	rs = connection.getRecords(query);
 
 	status = rs.next();
 
@@ -41,6 +42,12 @@ try {
 		session.setAttribute("fname", fname);
 		session.setAttribute("email", email);
 		session.setAttribute("city", city);
+		String ordQuery = "select * from crop_order_details where vendor_id="+ven_id;
+		order = connection.getRecords(ordQuery);
+		while(order.next()){
+			ordCount = ordCount + 1;
+			totalRev += order.getInt("order_amount");
+		}
 
 	}
 
@@ -144,10 +151,90 @@ catch (Exception e) {
 	}
 	%>
 
-	<div
-		class="d-flex flex-column align-items-center justify-content-center">
+	<div class="container text-justify">
 
-		<h1 class='text-success'>Dashboard</h1>
+		<h1 class='text-warning text-center mt-2'>Dashboard</h1>
+
+		<hr>
+
+
+
+		<main id="main" class="main">
+
+			<div class="pagetitle">
+				<h1>Dashboard</h1>
+				<nav>
+					<ol class="breadcrumb">
+						
+						<li class="breadcrumb-item active">Dashboard</li>
+					</ol>
+				</nav>
+			</div>
+			<!-- End Page Title -->
+
+			<section class="section dashboard">
+				<div class="row">
+
+					<!-- Left side columns -->
+					<div class="col-lg-8">
+						<div class="row">
+
+							<!-- Sales Card -->
+							<div class="col-xxl-4 col-md-6">
+								<div class="card info-card sales-card">
+
+
+
+									<div class="card-body">
+										<h5 class="card-title">
+											Total <span>| Sales</span>
+										</h5>
+
+										<div class="d-flex align-items-center">
+											<div
+												class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+												<i class="bi bi-cart"></i>
+											</div>
+											<div class="ps-3">
+												<h6><%= ordCount %></h6>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- End Sales Card -->
+
+							<!-- Revenue Card -->
+							<div class="col-xxl-4 col-md-6">
+								<div class="card info-card revenue-card">
+
+
+									<div class="card-body">
+										<h5 class="card-title">
+											Total <span>| Revenue</span>
+										</h5>
+
+										<div class="d-flex align-items-center">
+											<div
+												class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+												<i class="bi bi-currency-dollar"></i>
+											</div>
+											<div class="ps-3">
+												<h6>₹<%= totalRev %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- End Revenue Card -->
+							</div>
+						</div>
+						<!-- End Left side columns -->
+
+			</section>
+
+		</main>
+		<!-- End #main -->
 	</div>
 
 

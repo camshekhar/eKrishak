@@ -32,7 +32,10 @@ try {
 		d_pincode = drivers.getString("driver_pincode");
 		d_city = drivers.getString("driver_city");
 		d_state = drivers.getString("driver_state");
+		session.setAttribute("order_id", drivers.getInt("order_id"));
+
 	}
+	
 
 }
 

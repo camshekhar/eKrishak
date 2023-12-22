@@ -9,20 +9,20 @@
 <head>
 
 <%
-String mobile = (String) session.getAttribute("d_mobile");
+String d_mobile = (String) session.getAttribute("d_mobile");
 String logMsg = (String) session.getAttribute("logMsg");
 DB_Connection connection = null;
 boolean status = false, orderStatus = false;
-ResultSet driver = null, order = null;
-String d_name = "";
+ResultSet driver = null, order = null, details = null;
+String fname = "", city = "";
 int d_id = 0;
-Date dt = new Date();
+
 
 try {
 
 	connection = new DB_Connection();
 
-	String query = "Select * from driver_details where driver_contact=" + mobile;
+	String query = "Select * from driver_details where driver_contact=" + d_mobile;
 	
 	driver = connection.getRecords(query);
 
@@ -30,30 +30,22 @@ try {
 
 	if (status) {
 		d_id = driver.getInt("driver_id");
-		d_name = driver.getString("driver_name");
-		
+		city = driver.getString("driver_city");
 		
 		session.setAttribute("d_id", Integer.toString(d_id));
-		session.setAttribute("d_name", d_name);
-	
+		session.setAttribute("fname", fname);
+		session.setAttribute("city", city);
+
 
 		
-		String orderDetails = "Select * from crop_order_details, crop_details where crop_order_details.crop_id = crop_details.cr_id AND driver_id=" + d_id;
+		String orderDetails = "Select * from crop_order_details where driver_id=" + d_id;
 		order = connection.getRecords(orderDetails);
-		
-	}
 
-	else {
-		session.removeAttribute("d_mobile");
-		response.sendRedirect("/eKrishak/farmer/farmerLogin.jsp");
 	}
-	
-	
 
 }
 
 catch (Exception e) {
-	System.out.println(e);
 }
 %>
 
@@ -62,13 +54,13 @@ catch (Exception e) {
 
 <title>
 	<%
-	if (mobile == null) {
+	if (d_mobile == null) {
 		out.print("404 - Not Found");
 
 	}
 
 	else {
-		out.println(d_name.toUpperCase()+": Order History");
+		out.println(fname.toUpperCase()+": Order History");
 
 	}
 	%>
@@ -93,18 +85,19 @@ catch (Exception e) {
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<div class="navbar-nav mx-auto py-0">
-				<a href="farmerDashboard.jsp" class="nav-item nav-link active">Home</a>
+				<a href="vendorDashboard.jsp" class="nav-item nav-link active">Home</a>
 				<a href="/eKrishak/crops/cropListing.jsp" class="nav-item nav-link">List
-					Crops</a> <a href="/eKrishak/farmer/sellCrops.jsp"
-					class="nav-item nav-link">Sell Crops </a>
-
+					Crops</a> <a href="/eKrishak/vendor/approveCropPurchase.jsp"
+					class="nav-item nav-link">Approve Purchase</a>
+<a href="/eKrishak/vendor/bookVehicle.jsp"
+					class="nav-item nav-link">Book Vehicle</a>
 				<div class="nav-item dropdown">
 					<a href="#"
 						class="nav-link dropdown-toggle bg-warning text-success fw-bold"
-						data-bs-toggle="dropdown">Welcome, <%=d_name.toUpperCase()%></a>
+						data-bs-toggle="dropdown">Welcome, <%=fname.toUpperCase()%></a>
 					<div class="dropdown-menu m-0">
 						<a href="#" class="dropdown-item  text-center p-2">Profile</a> <a
-							href="/eKrishak/farmer/orderHistory.jsp" class="dropdown-item  text-center p-2">Order History</a>
+							href="/eKrishak/vendor/orderHistory.jsp" class="dropdown-item  text-center p-2">Order History</a>
 
 						<div class="dropdown-item bg-danger">
 
@@ -154,6 +147,8 @@ catch (Exception e) {
 		
 			while (order.next()) {
 			orderStatus = true;
+			session.setAttribute("vendor_id", order.getString("vendor_id"));
+			session.setAttribute("farmer_id", order.getString("farmer_id"));
 			%>
 
 			<div class="col">
@@ -161,34 +156,25 @@ catch (Exception e) {
 	
 					<div class="card-body">
 						<h5 class="card-title">Order ID: <%=order.getInt("order_id")%></h5>
+						
 						<p class="card-text">
-							Order Date: <strong><%=order.getDate("orderDate")%>
+							Farmer Id: <strong><%=order.getString("farmer_id")%>
 							</strong>
 						</p>
 						<p class="card-text">
-							Crop Name: <strong><%=order.getString("cr_name")%>
+							Vendor Id: <strong><%=order.getString("vendor_id") %>
 							</strong>
 						</p>
 						<p class="card-text">
-							Farmer ID: <strong><%=order.getInt("seller_id") %>
+							City: <strong><%=city%>
 							</strong>
 						</p>
-						<p class="card-text">
-							Vendor ID: <strong><%=order.getInt("buyer_id") %>
-							</strong>
-						</p>
-						<p class="card-text">
-							Total Order Quantity: <strong><%=order.getString("cr_quantity")%>KG</strong>
-						</p>
-						<p class="card-text">
-							Total Order Amount: ₹<strong><%=order.getInt("order_amount")%></strong>
-						</p>
-						<form action="receiptDownload.jsp">
-							<button
+				
+							<a href="receiptDownload.jsp" target="_blank"
 							
-								class="btn btn-custom" disabled>Download Receipt</button>
+								 class="btn btn-custom" >Show Receipt</a>
 
-						</form>
+					
 					</div>
 				</div>
 			</div>

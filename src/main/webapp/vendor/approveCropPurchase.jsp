@@ -144,10 +144,6 @@ catch (Exception e) {
 								%>"
 								class="btn btn-primary">Approve Purchase</button>
 
-							<button
-								onclick="<%session.setAttribute("cr_id", Integer.toString(grains.getInt("cr_id")));%>"
-								class="btn btn-danger">Reject Purchase</button>
-
 						</form>
 					</div>
 				</div>
