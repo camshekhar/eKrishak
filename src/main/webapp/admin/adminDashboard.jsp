@@ -40,7 +40,7 @@
     	
     	users = fCount+vCount+dCount;
     	
-    	String orderDetails = "Select * from crop_order_details";
+    	String orderDetails = "Select * from crop_order_details where driver_id!=0";
     	order = connection.getRecords(orderDetails);
     	
     	String orderDetail = "Select * from crop_order_details";
